@@ -23,7 +23,7 @@ INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
                     <a href="{{ route('agent.profile.edit') }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3" title="Profil">
                         <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                              alt="Foto Profil" 
-                             style="width: 32px; height: 32px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
+                             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
                         <span class="small fw-medium">
                             {{ \Illuminate\Support\Str::limit(auth()->user()->full_name, 15) }}
                         </span>

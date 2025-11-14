@@ -7,18 +7,10 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\PemanduWisataController;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider and all of them will
-| be assigned to the "web" middleware group. Make something great!
-|
-*/
+
 
 // ==== AUTHENTICATION ROUTES ====
 Route::middleware('guest')->group(function () {
@@ -32,6 +24,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
+// // ==== HALAMAN UTAMA ====
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome'); 
@@ -40,8 +33,6 @@ Route::get('/beranda', function () {
     return view('wisatawan.beranda'); 
 });
 
-// // ==== HALAMAN UTAMA ====
-// Route::redirect('/', '/beranda'); // langsung ke beranda
 
 // ==== BERANDA & DESTINASI & PEMANDU WISATA (ROUTE WISATAWAN) ====
 Route::get('/beranda', [BerandaController::class, 'wisatawan'])->name('beranda.wisatawan');
@@ -56,6 +47,20 @@ Route::get('/pemandu-wisata', [PemanduWisataController::class, 'index'])->name('
 Route::get('/pemandu-wisata/{agent}', [PemanduWisataController::class, 'show'])->name('pemandu-wisata.show');
 Route::get('/pemandu-wisata/{agent}/paket', [PemanduWisataController::class, 'packages'])->name('pemandu-wisata.packages');
 Route::get('/pemandu-wisata/{agent}/paket/{tourPackage}', [PemanduWisataController::class, 'packageDetail'])->name('pemandu-wisata.package-detail');
+
+/*
+|--------------------------------------------------------------------------
+| USER (WISATAWAN) PROFILE ROUTES
+|--------------------------------------------------------------------------
+*/
+// Rute ini hanya bisa diakses oleh user yang login dengan role 'user'
+Route::middleware(['auth', 'role.user'])->prefix('profile')->name('profile.')->group(function () {
+    
+    Route::get('/', [ProfileController::class, 'show'])->name('show');
+    Route::put('/', [ProfileController::class, 'update'])->name('update');
+    Route::get('/password', [ProfileController::class, 'showPasswordForm'])->name('password.show');
+    Route::put('/password', [ProfileController::class, 'update'])->name('password.update'); 
+});
 
 /*
 |--------------------------------------------------------------------------

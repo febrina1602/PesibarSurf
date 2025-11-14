@@ -11,12 +11,14 @@ use Illuminate\Validation\Rules\Password;
 
 class ProfileController extends Controller
 {
+    // Mengarahkan ke halaman edit profil
     public function show()
     {
         $user = Auth::user();
         return view('wisatawan.profile.edit', compact('user'));
     }
 
+    // Menampilkan form ganti password
     public function showPasswordForm()
     {
         $user = Auth::user();
@@ -30,36 +32,39 @@ class ProfileController extends Controller
     {
         $user = Auth::user();
 
+        // JIKA INI ADALAH UPDATE PASSWORD
+        if ($request->has('password')) {
+            $request->validate([
+                'password' => ['required', 'confirmed', Password::min(8)],
+            ]);
+
+            $user->password = Hash::make($request->password);
+            $user->save();
+
+            return redirect()->route('profile.password.show')->with('success', 'Password berhasil diperbarui!');
+        }
+
+        // JIKA INI ADALAH UPDATE PROFIL BIASA
         $request->validate([
-            'full_name' => 'sometimes|required|string|max:255',
-            'email' => [ 'sometimes', 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id), ],
+            'full_name' => 'required|string|max:255',
+            'email' => [ 'required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id), ],
             'phone_number' => 'nullable|string|max:20',
-            'gender' => 'nullable|in:Laki-laki,Perempuan',
-            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048', // Validasi foto
-            'password' => 'nullable|string|min:8|confirmed',
+            'profile_picture' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
         ]);
 
-        if ($request->has('full_name')) {
-             $user->fill($request->only('full_name', 'email', 'phone_number', 'gender'));
-        }
+        $user->fill($request->only('full_name', 'email', 'phone_number', 'gender'));
         
         if ($request->hasFile('profile_picture')) {
             if ($user->profile_picture_url) {
                 $oldPath = str_replace(Storage::url(''), '', $user->profile_picture_url);
                 Storage::disk('public')->delete($oldPath);
             }
-
-            // Simpan gambar baru di folder 'public/profiles'
             $path = $request->file('profile_picture')->store('profiles', 'public');
             $user->profile_picture_url = Storage::url($path);
         }
 
-        if ($request->filled('password')) {
-            $user->password = Hash::make($request->password);
-        }
-
         $user->save();
 
-        return back()->with('success', 'Profil berhasil diperbarui!');
+        return redirect()->route('profile.show')->with('success', 'Profil berhasil diperbarui!');
     }
 }

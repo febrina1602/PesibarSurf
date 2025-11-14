@@ -29,12 +29,35 @@
             <div class="d-flex align-items-center" style="min-width: 150px; justify-content: flex-end;">
                 
                 @guest
-                    <a href="#" class="text-dark text-decoration-none d-flex flex-column align-items-center">
+                    <a href="{{ route('login') }}" class="text-dark text-decoration-none d-flex flex-column align-items-center">
                         <i class="fas fa-user-circle" style="font-size: 1.75rem;"></i>
                         <span class="small fw-medium">Akun</span>
                     </a>
                 @endguest
                 
+                @auth
+                    @php
+                        $profileRoute = auth()->user()->role == 'agent' 
+                                      ? route('agent.dashboard') 
+                                      : route('profile.show');
+                    @endphp
+                    <a href="{{ $profileRoute }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
+                        <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
+                             alt="Foto Profil" 
+                             style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
+                        <span class="small fw-medium">
+                            {{ \Illuminate\Support\Str::limit(auth()->user()->full_name ?? auth()->user()->name, 15) }}
+                        </span>
+                    </a>
+                    
+                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-danger p-0" title="Logout" 
+                                style="font-size: 1.6rem; line-height: 1;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
     </header>
@@ -48,7 +71,7 @@
                     Beranda
                 </a>
                 <a href="#" class="nav-link-custom">Pasar Digital</a>
-                <a href="{{ route('pemandu-wisata.index') }}" class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') }} ">Pemandu Wisata</a>
+                <a href="{{ route('pemandu-wisata.index') }}" class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">Pemandu Wisata</a>
             </div>
         </div>
     </nav>
@@ -111,14 +134,6 @@
                                     <label for="phone_number" class="form-label fw-medium">Nomor Telepon</label>
                                     <input type="tel" class="form-control" id="phone_number" name="phone_number" 
                                         value="{{ old('phone_number', $user->phone_number) }}" placeholder="Contoh: 08123456789">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="gender" class="form-label fw-medium">Jenis Kelamin</label>
-                                    <select class="form-select" id="gender" name="gender">
-                                        <option value="">-- Pilih Jenis Kelamin --</option>
-                                        <option value="Laki-laki" {{ old('gender', $user->gender) == 'Laki-laki' ? 'selected' : '' }}>Laki-laki</option>
-                                        <option value="Perempuan" {{ old('gender', $user->gender) == 'Perempuan' ? 'selected' : '' }}>Perempuan</option>
-                                    </select>
                                 </div>
 
                                 <div class="d-grid mt-4">
