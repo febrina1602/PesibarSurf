@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title', 'Beranda - SigerTrip')
+@section('title', 'Beranda - PesibarSurf')
 
 @section('content')
 <div class="min-vh-100 bg-white">
@@ -10,9 +10,9 @@
         <div class="container py-2 d-flex align-items-center justify-content-between">
             
             <a href="{{ route('beranda.wisatawan') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
-                <img src="{{ asset('images/logo.png') }}" alt="SigerTrip Logo"
+                <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo"
                     style="height:42px" loading="lazy" onerror="this.style.display='none'">
-                <span class="ms-2 fw-bold text-dark d-none d-md-block">SigerTrip</span>
+                <span class="ms-2 fw-bold text-dark d-none d-md-block">PesibarSurf</span>
             </a>
 
             <form class="flex-grow-1 mx-3 mx-md-4" action="#" method="GET">
@@ -30,12 +30,29 @@
             <div class="d-flex align-items-center" style="min-width: 150px; justify-content: flex-end;">
                 
                 @guest
-                    <a href="#" class="text-dark text-decoration-none d-flex flex-column align-items-center">
+                    <a href="{{ route('login') }}" class="text-dark text-decoration-none d-flex flex-column align-items-center">
                         <i class="fas fa-user-circle" style="font-size: 1.75rem;"></i>
                         <span class="small fw-medium">Akun</span>
                     </a>
                 @endguest
                 
+                @auth
+                    
+                    <a href="#" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
+                        <i class="fas fa-user-circle" style="font-size: 1.75rem;"></i>
+                        <span class="small fw-medium">
+                            {{ \Illuminate\Support\Str::limit(auth()->user()->full_name ?? auth()->user()->name, 15) }}
+                        </span>
+                    </a>
+                    
+                    <form action="{{ route('logout') }}" method="POST" class="m-0">
+                        @csrf
+                        <button type="submit" class="btn btn-link text-danger p-0" title="Logout" 
+                                style="font-size: 1.6rem; line-height: 1;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </button>
+                    </form>
+                @endauth
             </div>
         </div>
     </header>
