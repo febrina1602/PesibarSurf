@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-@section('title','Registrasi - PesibarSurf')
+@section('title','Registrasi Agen - PesibarSurf')
 
 @push('styles')
 <style>
@@ -79,7 +79,7 @@
           </div>
         @endif
 
-        <form method="POST" action="{{ route('register') }}" class="mt-2">
+        <form method="POST" action="{{ route('register.agent.post') }}" class="mt-2">
           @csrf
           <div class="mb-3 position-relative">
             <input type="text" name="full_name" value="{{ old('full_name') }}"
@@ -130,13 +130,6 @@
 
           <p class="text-center mt-3 mb-0">
             Sudah memiliki akun? <a href="{{ route('login') }}" class="text-danger text-decoration-none fw-semibold">Masuk Disini</a>
-          </p>
-
-          <p class="text-center mt-2 mb-0 small text-muted">
-            Ingin menjadi bagian dari mitra Pesibar Surf? 
-            <a href="{{ route('register.agent') }}" class="text-danger text-decoration-none fw-semibold">
-                Daftar disini
-            </a>
           </p>
         </form>
       </div>

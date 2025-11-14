@@ -34,6 +34,27 @@ class AuthController extends Controller
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
             
+            // Ambil data user yang baru saja login
+            $user = Auth::user();
+
+            // Periksa role pengguna
+            if ($user->role === 'agent') {
+                
+                // --- INI BAGIAN PENTING ---
+                // Ambil profil agen dari user
+                $agent = $user->agent;
+
+                // Tentukan nama yang akan disapa
+                // Jika profil agen sudah diisi, gunakan nama agensi ($agent->name)
+                // Jika belum (masih null), gunakan nama lengkap user ($user->full_name)
+                $agentName = $agent ? $agent->name : $user->full_name;
+                
+                // Arahkan ke dashboard agen dengan NAMA DINAMIS
+                return redirect()->intended(route('agent.dashboard'))
+                    ->with('success', 'Selamat datang kembali, ' . $agentName . '!');
+            }
+
+            // Untuk role 'user', arahkan ke beranda wisatawan
             return redirect()->intended(route('beranda.wisatawan'))
                 ->with('success', 'Selamat datang kembali!');
         }
@@ -88,5 +109,37 @@ class AuthController extends Controller
         return redirect()->route('login')
             ->with('success', 'Anda telah berhasil logout.');
     }
-}
 
+    /**
+     * Show the agent registration form
+     */
+    public function showAgentRegisterForm()
+    {
+        return view('auth.register-agent'); // Ini sudah benar
+    }
+
+    /**
+     * Handle agent registration request
+     */
+    public function registerAgent(Request $request)
+    {
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'string', 'confirmed', Password::min(8)],
+        ]);
+
+        $user = User::create([
+            'full_name' => $request->full_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => 'agent', // Ini sudah benar
+        ]);
+
+        Auth::login($user);
+
+        // Mengarahkan ke dashboard agen (ini sudah benar)
+        return redirect()->route('agent.dashboard')
+            ->with('success', 'Akun agen Anda berhasil dibuat! Selamat datang di PesibarSurf.');
+    }
+}

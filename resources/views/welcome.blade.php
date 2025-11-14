@@ -9,8 +9,8 @@
             <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo">
         </div>
         <div>
-            <a href="{{ url('/login') }}" class="btn-custom me-2">Masuk</a>
-            <a href="#" class="btn-custom">Daftar</a>
+            <a href="{{ route('login') }}" class="btn-custom me-2">Masuk</a>
+            <a href="{{ route('register') }}" class="btn-custom">Daftar</a>
         </div>
     </header>
 

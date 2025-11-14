@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Agent\AgentDashboardController;
+use App\Http\Controllers\Agent\AgentPackageController;
+use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\DestinationController;
@@ -54,3 +57,39 @@ Route::get('/pemandu-wisata/{agent}', [PemanduWisataController::class, 'show'])-
 Route::get('/pemandu-wisata/{agent}/paket', [PemanduWisataController::class, 'packages'])->name('pemandu-wisata.packages');
 Route::get('/pemandu-wisata/{agent}/paket/{tourPackage}', [PemanduWisataController::class, 'packageDetail'])->name('pemandu-wisata.package-detail');
 
+/*
+|--------------------------------------------------------------------------
+| AGENT DASHBOARD ROUTES
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->group(function () {
+
+    // --- PROFIL AGEN ---
+    // (Penting: Redirect jika agen belum punya profil)
+    Route::get('/dashboard', [AgentDashboardController::class, 'index'])->name('dashboard');
+
+    // Mendaftarkan/Membuat Profil Agen (setelah registrasi user)
+    Route::get('/profile/create', [AgentProfileController::class, 'create'])->name('profile.create');
+    Route::post('/profile', [AgentProfileController::class, 'store'])->name('profile.store');
+
+    // Mengelola Profil Agen (Edit/Update)
+    Route::get('/profile', [AgentProfileController::class, 'edit'])->name('profile.edit');
+    Route::put('/profile', [AgentProfileController::class, 'update'])->name('profile.update');
+
+    // --- PAKET TOUR ---
+    // Mengelola Paket (CRUD)
+    Route::get('/packages', [AgentPackageController::class, 'index'])->name('packages.index');
+    Route::get('/packages/create', [AgentPackageController::class, 'create'])->name('packages.create');
+    Route::post('/packages', [AgentPackageController::class, 'store'])->name('packages.store');
+    Route::get('/packages/{tourPackage}/edit', [AgentPackageController::class, 'edit'])->name('packages.edit');
+    Route::put('/packages/{tourPackage}', [AgentPackageController::class, 'update'])->name('packages.update');
+    Route::delete('/packages/{tourPackage}', [AgentPackageController::class, 'destroy'])->name('packages.destroy');
+    
+    // Rute untuk mengelola rental (jika ada)
+    // Route::resource('/vehicles', AgentVehicleController::class);
+
+});
+
+// Rute untuk menampilkan form registrasi agen
+Route::get('/register/agent', [AuthController::class, 'showAgentRegisterForm'])->name('register.agent');
+Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('register.agent.post');
