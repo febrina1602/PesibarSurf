@@ -20,7 +20,7 @@ return new class extends Migration
             $table->decimal('price_per_person', 12, 2)->default(0);
             $table->string('duration')->nullable();
             $table->text('facilities')->nullable();
-            $table->json('destinations_visited')->nullable(); // simpan array id destinasi
+            $table->text('destinations_visited')->nullable();
             $table->timestamps();
 
             $table->index('agent_id');

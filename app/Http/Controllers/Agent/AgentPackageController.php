@@ -3,8 +3,10 @@ namespace App\Http\Controllers\Agent;
 
 use App\Http\Controllers\Controller;
 use App\Models\TourPackage;
+use App\Models\Destination;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class AgentPackageController extends Controller
 {
@@ -17,46 +19,138 @@ class AgentPackageController extends Controller
         }
 
         $tourPackages = $agent->tourPackages()->orderBy('created_at', 'desc')->get();
-        return view('agent.packages.index', compact('tourPackages'));
+        
+        return view('agent.packages.index', compact('tourPackages', 'agent')); 
     }
 
     // Menampilkan form tambah paket
     public function create()
     {
-        return view('agent.packages.create');
+        $agent = Auth::user()->agent;
+        
+        if (!$agent || !$agent->is_verified) {
+             return redirect()->route('agent.dashboard')->with('error', 'Profil Anda harus terverifikasi untuk menambah paket.');
+        }
+        
+        return view('agent.packages.create', compact('agent'));
     }
 
     // Menyimpan paket baru
     public function store(Request $request)
     {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-            'price_per_person' => 'required|numeric|min:0',
-            'duration' => 'nullable|string',
-            // ... validasi lainnya sesuai Model TourPackage ...
-        ]);
-
         $agent = Auth::user()->agent;
 
-        $package = new TourPackage($request->all());
-        // $package->agent_id = $agent->id; // Cara 1
-        // $package->save();
+        if (!$agent || !$agent->is_verified) {
+            return redirect()->route('agent.dashboard')->with('error', 'Profil Anda harus terverifikasi.');
+        }
 
-        // Cara 2 (Lebih Eloquent)
-        $agent->tourPackages()->create($request->all());
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'duration' => 'required|string|max:100',
+            'price_per_person' => 'required|numeric|min:0',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
+            'facilities' => 'nullable|string',
+            'destinations_visited' => 'nullable|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $data = $request->except('cover_image');
+
+        if ($request->hasFile('cover_image')) {
+            $path = $request->file('cover_image')->store('package-covers', 'public');
+            $data['cover_image_url'] = Storage::url($path);
+        }
+
+        $agent->tourPackages()->create($data);
 
         return redirect()->route('agent.packages.index')->with('success', 'Paket baru berhasil ditambahkan.');
     }
 
-    // ... (buat method edit, update, destroy) ...
-
-    // PENTING: Untuk edit/update/destroy, pastikan agen hanya bisa mengubah paket miliknya sendiri!
+    // Menampilkan form edit paket
     public function edit(TourPackage $tourPackage)
     {
-        if ($tourPackage->agent_id !== Auth::user()->agent->id) {
+        $agent = Auth::user()->agent; 
+
+        if ($tourPackage->agent_id !== $agent->id) {
             abort(403); // Tidak diizinkan
         }
-        return view('agent.packages.edit', compact('tourPackage'));
+        
+        return view('agent.packages.edit', compact('tourPackage', 'agent'));
+    }
+    
+    // ======================================================
+    // === METHOD BARU UNTUK UPDATE (PERBAIKAN ERROR ANDA) ===
+    // ======================================================
+
+    /**
+     * Update paket tour yang sudah ada di database.
+     */
+    public function update(Request $request, TourPackage $tourPackage)
+    {
+        $agent = Auth::user()->agent;
+
+        // Keamanan: Pastikan agen ini adalah pemilik paket
+        if ($tourPackage->agent_id !== $agent->id) {
+            abort(403, 'Anda tidak diizinkan mengubah paket ini.');
+        }
+
+        // Validasi (Mirip dengan store)
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'duration' => 'required|string|max:100',
+            'price_per_person' => 'required|numeric|min:0',
+            'cover_image' => 'nullable|image|mimes:jpeg,png,jpg|max:2048', // Opsional
+            'facilities' => 'nullable|string',
+            'destinations_visited' => 'nullable|string',
+            'description' => 'nullable|string',
+        ]);
+
+        $data = $request->except('cover_image');
+
+        // Logika untuk upload/update gambar
+        if ($request->hasFile('cover_image')) {
+            // 1. Hapus gambar lama jika ada
+            if ($tourPackage->cover_image_url) {
+                $oldPath = str_replace(Storage::url(''), '', $tourPackage->cover_image_url);
+                Storage::disk('public')->delete($oldPath);
+            }
+
+            // 2. Simpan gambar baru
+            $path = $request->file('cover_image')->store('package-covers', 'public');
+            $data['cover_image_url'] = Storage::url($path);
+        }
+
+        // Update data paket
+        $tourPackage->update($data);
+
+        return redirect()->route('agent.packages.index')->with('success', 'Paket berhasil diperbarui.');
+    }
+
+    // ======================================================
+    // === METHOD BARU UNTUK HAPUS PAKET ===
+    // ======================================================
+
+    /**
+     * Hapus paket tour dari database.
+     */
+    public function destroy(TourPackage $tourPackage)
+    {
+        $agent = Auth::user()->agent;
+
+        // Keamanan: Pastikan agen ini adalah pemilik paket
+        if ($tourPackage->agent_id !== $agent->id) {
+            abort(403, 'Anda tidak diizinkan menghapus paket ini.');
+        }
+
+        // Hapus gambar cover dari storage
+        if ($tourPackage->cover_image_url) {
+            $oldPath = str_replace(Storage::url(''), '', $tourPackage->cover_image_url);
+            Storage::disk('public')->delete($oldPath);
+        }
+
+        // Hapus data dari database
+        $tourPackage->delete();
+
+        return redirect()->route('agent.packages.index')->with('success', 'Paket berhasil dihapus.');
     }
 }

@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'role',  
-        'phone_number', // <-- TAMBAHKAN INI
+        'phone_number',
         'gender',
         'profile_picture_url',
     ];
@@ -47,4 +47,13 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    /**
+     * TAMBAHKAN FUNGSI INI
+     * Mendapatkan profil agen yang terkait dengan user.
+     */
+    public function agent()
+    {
+        return $this->hasOne(Agent::class);
+    }
 }

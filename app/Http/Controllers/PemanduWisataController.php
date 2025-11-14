@@ -38,6 +38,8 @@ class PemanduWisataController extends Controller
             abort(404, 'Agen tour tidak ditemukan.');
         }
 
+        $agent->load('user'); 
+
         $tourPackages = $agent->tourPackages()
             ->orderBy('created_at', 'desc')
             ->get();
@@ -73,6 +75,9 @@ class PemanduWisataController extends Controller
         if (!$agent->is_verified) {
             abort(404, 'Agen tour tidak ditemukan.');
         }
+
+        // TAMBAHKAN INI: Memuat relasi 'user' dari si agen
+        $agent->load('user');
 
         return view('wisatawan.pemanduWisata.package-detail', compact('agent', 'tourPackage'));
     }

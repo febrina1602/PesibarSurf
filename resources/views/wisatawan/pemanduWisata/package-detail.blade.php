@@ -88,17 +88,19 @@
                 <h1 class="h3 fw-bold text-dark mb-4">{{ $tourPackage->name }}</h1>
                 
                 @php
-                    $destinasiDikunjungi = $tourPackage->destinations();
+                    $destinasiDikunjungi = $tourPackage->destinations_visited_array;
                 @endphp
-                @if($destinasiDikunjungi->isNotEmpty())
+                
+                @if(!empty($destinasiDikunjungi))
                 <div class="mb-4">
                     <h5 class="fw-bold mb-3">Destinasi yang Dikunjungi:</h5>
                     <div class="row row-cols-2 g-3">
                         @foreach($destinasiDikunjungi as $dest)
                         <div class="col">
                             <div class="d-flex align-items-center gap-2">
-                                <i class="fas fa-star text-warning"></i>
-                                <span class="text-muted">{{ $dest->name }}</span>
+                                {{-- Ganti ikon bintang agar tidak sama dengan fasilitas --}}
+                                <i class="fas fa-map-marker-alt text-danger"></i>
+                                <span class="text-muted">{{ $dest }}</span>
                             </div>
                         </div>
                         @endforeach
@@ -157,9 +159,7 @@
                                 <h6 class="fw-semibold text-dark mb-0">Harga Mulai:</h6>
                                 <span class="text-muted">
                                     Rp{{ number_format($tourPackage->price_per_person, 0, ',', '.') }}
-                                    @if($tourPackage->minimum_participants)
-                                        (min. {{ $tourPackage->minimum_participants }} orang)
-                                    @endif
+                                    / orang
                                 </span>
                             </div>
                         </div>
@@ -173,9 +173,20 @@
                         
                         <div class="d-grid">
                             @php
-                                $kontak = $agent->phone_number ?? $agent->contact_phone;
-                                $waLink = $kontak ? 'https://api.whatsapp.com/send?phone=' . preg_replace('/[^0-9]/', '', $kontak) : '#';
+                                $kontak = $agent->user->phone_number ?? null;
+                                
+                                $nomorWhatsapp = null;
+                                if ($kontak) {
+                                    $nomorWhatsapp = preg_replace('/[^0-9]/', '', $kontak);
+                                    
+                                    if (substr($nomorWhatsapp, 0, 1) === '0') {
+                                        $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1);
+                                    }
+                                }
+                                
+                                $waLink = $nomorWhatsapp ? 'https://api.whatsapp.com/send?phone=' . $nomorWhatsapp : '#';
                             @endphp
+                            
                             <a href="{{ $waLink }}" target="_blank" class="btn btn-lg fw-semibold text-dark" style="background-color: #FFD15C;">
                                 <i class="fab fa-whatsapp me-2"></i> Hubungi Kami
                             </a>

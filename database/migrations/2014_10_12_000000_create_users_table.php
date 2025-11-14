@@ -18,7 +18,6 @@ return new class extends Migration
             $table->string('password'); // simpan hash (bcrypt/argon2)
             $table->enum('role', ['admin','agent','user']);
             $table->string('phone_number')->nullable();
-            $table->enum('gender', ['Laki-laki','Perempuan'])->nullable();
             $table->string('profile_picture_url')->nullable();
             $table->timestamps();
         });

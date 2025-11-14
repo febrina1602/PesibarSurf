@@ -15,15 +15,21 @@ class AgentDashboardController extends Controller
      */
     public function index()
     {
-        // 1. Ambil relasi 'agent' dari user yang sedang login.
-        //    Variabel $agent akan berisi data agensi ATAU null jika belum dibuat.
-        $agent = Auth::user()->agent;
+        // Eager load relasi 'user' agar data email/telepon tersedia
+        $agent = Auth::user()->agent()->with('user')->first(); 
 
-        // 2. HAPUS LOGIKA REDIRECT LAMA
-        //    Sekarang kita langsung tampilkan view dashboard.
-        //    View-nya yang akan kita buat pintar untuk menangani jika $agent null.
+        if (!$agent) {
+            return redirect()->route('agent.profile.create')
+                ->with('info', 'Selamat datang! Harap lengkapi profil agensi Anda terlebih dahulu.');
+        }
+
+        // Ambil semua paket tour yang dimiliki oleh agen ini
+        $tourPackages = $agent->tourPackages()->orderBy('created_at', 'desc')->get();
+
+        // Kirim data agent dan tourPackages ke view
         return view('agent.dashboard', [
             'agent' => $agent,
+            'tourPackages' => $tourPackages,
         ]);
     }
 }

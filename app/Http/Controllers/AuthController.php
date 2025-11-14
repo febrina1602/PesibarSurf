@@ -106,7 +106,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login')
+        return redirect()->route('welcome')
             ->with('success', 'Anda telah berhasil logout.');
     }
 
@@ -140,6 +140,6 @@ class AuthController extends Controller
 
         // Mengarahkan ke dashboard agen (ini sudah benar)
         return redirect()->route('agent.dashboard')
-            ->with('success', 'Akun agen Anda berhasil dibuat! Selamat datang di PesibarSurf.');
+            ->with('success', 'Akun Anda berhasil dibuat! Selamat datang di PesibarSurf.');
     }
 }

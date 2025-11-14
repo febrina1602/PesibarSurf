@@ -14,13 +14,14 @@ class Agent extends Model
         'user_id',         
         'name',            
         'agent_type',      
-        'address',         
+        'address',        
         'location',        
-        'contact_phone',  
-        'is_verified',     
-        'rating',           
+        'is_verified',    
+        'rating',          
         'banner_image_url',
-        'description',   
+        'description',
+        'file_ktp_url',         
+        'file_siup_url',   
     ];
 
     

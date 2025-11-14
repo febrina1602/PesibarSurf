@@ -16,7 +16,6 @@ class TourPackage extends Model
         'cover_image_url',
         'thumbnail_images',
         'price_per_person',
-        'minimum_participants',
         'duration',
         'start_time',
         'end_time',
@@ -33,7 +32,6 @@ class TourPackage extends Model
         'duration_days' => 'integer',
         'duration_nights' => 'integer',
         'thumbnail_images' => 'array', 
-        'destinations_visited' => 'array', 
     ];
 
     /**
@@ -44,13 +42,7 @@ class TourPackage extends Model
         return $this->belongsTo(Agent::class);
     }
 
-    /**
-     * RELASI: Tour Package memiliki banyak Destination melalui destinations_visited
-     */
-    public function destinations()
-    {
-        return Destination::whereIn('id', $this->destinations_visited ?? [])->get();
-    }
+
 
     /**
      * Accessor untuk facilities - mengubah menjadi array jika JSON atau split jika text
@@ -74,6 +66,30 @@ class TourPackage extends Model
         
         // Jika text biasa, split by newline atau comma
         return array_filter(array_map('trim', preg_split('/[\n,]+/', $this->facilities)));
+    }
+
+    /**
+     * Accessor untuk destinations_visited - mengubah menjadi array
+     */
+    public function getDestinationsVisitedArrayAttribute()
+    {
+        if (empty($this->destinations_visited)) {
+            return [];
+        }
+        
+        // Cek jika sudah array
+        if (is_array($this->destinations_visited)) {
+            return $this->destinations_visited;
+        }
+        
+        // decode JSON
+        $decoded = json_decode($this->destinations_visited, true);
+        if (json_last_error() === JSON_ERROR_NONE) {
+            return $decoded;
+        }
+        
+        // Jika text biasa, split by newline atau comma
+        return array_filter(array_map('trim', preg_split('/[\n,]+/', $this->destinations_visited)));
     }
 
     /**

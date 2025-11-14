@@ -15,10 +15,12 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique();
             $table->string('name');
-            $table->string('email')->unique()->nullable();
+            $table->enum('agent_type', ['TOUR', 'RENTAL', 'BOTH']); // (Tipe Agen)
             $table->text('address')->nullable();
-            $table->string('phone_number')->nullable(); 
+            $table->text('description')->nullable();
             $table->string('banner_image_url')->nullable(); 
+            $table->string('file_ktp_url')->nullable();
+            $table->string('file_siup_url')->nullable(); // (SIUP / SKU / NIB)
             $table->boolean('is_verified')->default(false);
             $table->timestamps();
         });
