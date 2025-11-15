@@ -36,8 +36,12 @@ class AuthController extends Controller
             
             // Ambil data user yang baru saja login
             $user = Auth::user();
-
+            
             // Periksa role pengguna
+            if ($user->role == 'admin') {
+                return redirect()->intended(route('admin.dashboard'));
+            }
+
             if ($user->role === 'agent') {
                 
                 // --- INI BAGIAN PENTING ---

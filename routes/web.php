@@ -30,16 +30,19 @@ Route::get('/', function () {
 })->name('welcome'); 
 
 Route::get('/tentang', function () {
-    return view('tentang');
+    return view('tentang'); // Pastikan Anda punya file resources/views/tentang.blade.php
 })->name('tentang');
 
+// HAPUS ATAU BERI KOMENTAR RUTE INI
+/*
 Route::get('/beranda', function () {
     return view('wisatawan.beranda'); 
 });
-
+*/
 
 
 // ==== BERANDA & DESTINASI & PEMANDU WISATA (ROUTE WISATAWAN) ====
+// BIARKAN RUTE INI
 Route::get('/beranda', [BerandaController::class, 'wisatawan'])->name('beranda.wisatawan');
 
 Route::get('/category/{id}', [DestinationController::class, 'byCategory'])
@@ -103,3 +106,19 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
 // Rute untuk menampilkan form registrasi agen
 Route::get('/register/agent', [AuthController::class, 'showAgentRegisterForm'])->name('register.agent');
 Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('register.agent.post');
+
+/*
+|--------------------------------------------------------------------------
+| ADMIN DASHBOARD ROUTES
+|--------------------------------------------------------------------------
+*/
+// Rute ini hanya bisa diakses oleh user yang login dengan role 'admin'
+Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->group(function () {
+    
+    // Rute untuk Dashboard Admin
+    Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
+
+    // Rute resource untuk mengelola User
+    Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+
+});

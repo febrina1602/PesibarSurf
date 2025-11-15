@@ -51,10 +51,6 @@ INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
                     Dashboard
                 </a>
                 
-                {{-- 
-                  Kita definisikan $agent di sini agar semua child view punya akses
-                  dan navigasinya konsisten.
-                --}}
                 @php
                     $agent = auth()->user()->agent;
                 @endphp
