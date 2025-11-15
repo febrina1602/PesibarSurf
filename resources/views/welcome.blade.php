@@ -6,7 +6,7 @@
     <!-- HEADER -->
     <header>
         <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo">
+            <img src="{{ asset('images/logo_removebg.png') }}" alt="PesibarSurf Logo">
         </div>
         <div>
             <a href="{{ route('login') }}" class="btn-custom me-2">Masuk</a>
@@ -55,7 +55,7 @@
         <div class="container py-3">
             <div class="row align-items-start">
                 <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;">
+                    <img src="{{ asset('images/logo_removebg.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;">
                 </div>
 
                 <div class="col-md-3 text-center mb-3 mb-md-0">

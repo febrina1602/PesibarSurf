@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -69,7 +70,155 @@
         .typing { display: inline-block; border-right: 3px solid #333; white-space: nowrap; overflow: hidden; animation: typing 3s steps(30, end), blink 0.75s step-end infinite; }
         @keyframes typing { from { width: 0 } to { width: 35% } }
         @keyframes blink { 50% { border-color: transparent } }
-        
+
+        .typing {
+            display: inline-block;
+            border-right: 3px solid #333;
+            white-space: nowrap;
+            overflow: hidden;
+            animation: typing 3s steps(30, end), blink 0.75s step-end infinite;
+        }
+
+        @keyframes typing {
+            from {
+                width: 0
+            }
+
+            to {
+                width: 35%
+            }
+        }
+
+        @keyframes blink {
+            50% {
+                border-color: transparent
+            }
+        }
+
+        /* ===========================
+        CSS KHUSUS HALAMAN MARKETPLACE
+        =========================== */
+
+        /* FULLSIZE tapi tetap responsive */
+
+        .app-wrapper {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            background: #f7f7f7;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+            /* ruang untuk bottom nav */
+        }
+
+        .marketplace-header-img {
+            height: 80px;
+            border-radius: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+
+            /* GRADIENT DASAR */
+            background: linear-gradient(180deg, #FFE467, #FFDFCF);
+        }
+
+        /* Tambahkan pattern SIGER */
+        .marketplace-header-img::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url('/images/siger-pattern.png');
+            background-repeat: repeat-x;
+            background-position: center bottom;
+            background-size: 900px auto;
+            /* sesuaikan besar kecilnya */
+            opacity: 0.50;
+            /* supaya samar seperti contoh */
+            pointer-events: none;
+        }
+
+        .marketplace-title {
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .marketplace-title span {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 576px) {
+            .modal-dialog.modal-xl {
+                margin: 1rem;
+            }
+        }
+
+
+        .marketplace-card {
+            border-radius: 16px;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+
+        .marketplace-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .marketplace-card img {
+            width: 60px;
+            height: 60px;
+        }
+
+        .marketplace-desc {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .btn-market {
+            background-color: #d6181f;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 11px;
+            padding: 6px 12px;
+        }
+
+        .btn-market:hover {
+            background-color: #b51219;
+            color: #fff;
+        }
+
+        .bottom-nav-market {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            /* full width */
+            background: #ffffff;
+            border-top: 1px solid #dee2e6;
+            padding: 6px 0 8px;
+            z-index: 50;
+        }
+
+
+        .bottom-nav-market .nav-item-custom {
+            text-align: center;
+            font-size: 11px;
+            color: #777;
+        }
+
+        .bottom-nav-market .nav-item-custom i {
+            font-size: 18px;
+            display: block;
+        }
+
+        .bottom-nav-market .nav-item-custom.active {
+            color: #d6181f;
+            font-weight: 600;
+        }
         /* FOOTER STYLES */
         .footer { background: linear-gradient(90deg, #D19878, #FFE75D); color: #000; position: relative; overflow: hidden; padding: 30px 0 60px 0; flex-shrink: 0; }
         .footer a.footer-link { color: #000; text-decoration: none; }
@@ -89,48 +238,12 @@
     {{-- Ini adalah tempat style dari login/register akan dimasukkan --}}
     @stack('styles')
 </head>
+
 <body>
-    
-    <div class="main-content">
-        @yield('content')
-    </div>
-    
-    {{-- FOOTER --}}
-    <footer class="footer position-relative">
-        <div class="container py-3">
-            <div class="row align-items-start">
-                <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;" loading="lazy">
-                </div>
-                <div class="col-md-3 text-center mb-3 mb-md-0">
-                    <h6 class="fw-bold mb-2">Ikuti Kami</h6>
-                    <div class="d-flex justify-content-center align-items-center social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-x-twitter"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
-                    </div>
-                </div>
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <h6 class="fw-bold mb-2">Dibuat Oleh:</h6>
-                    <p class="mb-1">Febrina Aulia Azahra</p>
-                    <p class="mb-1">Carissa Oktavia Sanjaya</p>
-                    <p class="mb-1">Dilvi Yola</p>
-                    <p class="mb-0">M. Hafiz Abyan</p>
-                </div>
-                <div class="col-md-3">
-                    <h6 class="fw-bold mb-2">Informasi</h6>
-                    <p class="mb-1"><a href="#" class="footer-link">Tentang</a></p>
-                    <p class="mb-0"><a href="#" class="footer-link">FAQ</a></p>
-                </div>
-            </div>
-        </div>
-        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern" loading="lazy">
-    </footer>
-    
+    @yield('content')
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
     
 </body>
+
 </html>

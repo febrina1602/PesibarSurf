@@ -9,6 +9,8 @@ use App\Http\Controllers\DestinationController;
 use App\Http\Controllers\PemanduWisataController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\TransportController;
 
 
 
@@ -98,3 +100,17 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
 // Rute untuk menampilkan form registrasi agen
 Route::get('/register/agent', [AuthController::class, 'showAgentRegisterForm'])->name('register.agent');
 Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('register.agent.post');
+
+Route::prefix('marketplace')->group(function () {
+    // Halaman utama Pasar Digital
+    Route::get('/', [MarketplaceController::class, 'index'])
+        ->name('marketplace.index');
+
+    // Halaman Transportasi Daerah (menu dalam)
+    Route::get('/transportasi/daerah', [TransportController::class, 'daerah'])
+        ->name('transport.daerah');
+
+    Route::get('/transportasi/luar', [TransportController::class, 'luar'])
+        ->name('transport.luar');
+});
+
