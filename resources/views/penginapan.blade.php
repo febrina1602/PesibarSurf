@@ -172,6 +172,10 @@
 </div>
 @endsection
 
+@section('bottom-nav')
+    @include('partials.bottom-nav', ['active' => 'marketplace'])
+@endsection
+
 @push('scripts')
 <script>
 document.addEventListener('DOMContentLoaded', function () {

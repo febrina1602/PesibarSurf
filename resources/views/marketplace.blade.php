@@ -78,3 +78,7 @@
         </div>
     </div>
 @endsection
+
+@section('bottom-nav')
+    @include('partials.bottom-nav', ['active' => 'marketplace'])
+@endsection
