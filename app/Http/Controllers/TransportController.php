@@ -2,166 +2,79 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Transport;
+use App\Models\TransportDaerah;
+use App\Models\TransportLuar;
 
 class TransportController extends Controller
 {
     // ================== TRANSPORTASI DAERAH ==================
     public function daerah()
     {
-        // 3 kartu utama di halaman Transportasi Daerah
-        $items = [
+        $categories = [
             [
-                'image'       => asset('images/transport/mobil.png'),
+                'type'        => 'mobil',
                 'title'       => 'Agen Sewa Mobil',
-                'description' => 'Dapatkan jenis mobil yang kamu inginkan',
-                'button'      => 'Rincian',
+                'description' => 'Dapatkan jenis mobil yang kamu inginkan untuk berkeliling Pesibar.',
+                'image'       => 'images/transport/mobil.png',
+                'modal_id'    => 'modalDaerahMobil',
             ],
             [
-                'image'       => asset('images/transport/motor.png'),
+                'type'        => 'motor',
                 'title'       => 'Agen Sewa Motor',
-                'description' => 'Dapatkan jenis motor yang kamu inginkan',
-                'button'      => 'Rincian',
+                'description' => 'Pilihan motor untuk menjelajahi pantai dan desa wisata.',
+                'image'       => 'images/transport/motor.png',
+                'modal_id'    => 'modalDaerahMotor',
             ],
             [
-                'image'       => asset('images/transport/perahu.png'),
+                'type'        => 'penyeberangan',
                 'title'       => 'Agen Penyeberangan Pulau',
-                'description' => 'Dapatkan penyeberangan sesuai kebutuhan',
-                'button'      => 'Rincian',
+                'description' => 'Layanan perahu dan penyeberangan ke pulau sekitar Pesibar.',
+                'image'       => 'images/transport/perahu.png',
+                'modal_id'    => 'modalDaerahPenyeberangan',
             ],
         ];
 
-        // Data agen sewa mobil (DAERAH)
-        $mobilAgents = [
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen A',
-            ],
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen B',
-            ],
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen C',
-            ],
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen D',
-            ],
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen E',
-            ],
-            [
-                'image' => asset('images/transport/mobil.png'),
-                'name'  => 'Nama Agen F',
-            ],
-        ];
-
-        // Data agen sewa motor (DAERAH)
-        $motorAgents = [
-            [
-                'image' => asset('images/transport/motor.png'),
-                'name'  => 'Nama Agen Motor A',
-            ],
-            [
-                'image' => asset('images/transport/motor.png'),
-                'name'  => 'Nama Agen Motor B',
-            ],
-            [
-                'image' => asset('images/transport/motor.png'),
-                'name'  => 'Nama Agen Motor C',
-            ],
-            [
-                'image' => asset('images/transport/motor.png'),
-                'name'  => 'Nama Agen Motor D',
-            ],
-        ];
-
-        // Data agen penyeberangan / perahu (DAERAH)
-        $kapalAgents = [
-            [
-                'image' => asset('images/transport/perahu.png'),
-                'name'  => 'Agen Penyeberangan A',
-            ],
-            [
-                'image' => asset('images/transport/perahu.png'),
-                'name'  => 'Agen Penyeberangan B',
-            ],
-            [
-                'image' => asset('images/transport/perahu.png'),
-                'name'  => 'Agen Penyeberangan C',
-            ],
-        ];
+        $mobilAgents = TransportDaerah::where('type', 'mobil')->orderBy('id')->get();
+        $motorAgents = TransportDaerah::where('type', 'motor')->orderBy('id')->get();
+        $penyeberanganAgents = TransportDaerah::where('type', 'penyeberangan')->orderBy('id')->get();
 
         return view('transport-daerah', compact(
-            'items',
+            'categories',
             'mobilAgents',
             'motorAgents',
-            'kapalAgents'
+            'penyeberanganAgents'
         ));
     }
 
     // ================== TRANSPORTASI LUAR ==================
     public function luar()
     {
-        // 3 kartu utama di halaman Transportasi Luar
-        $items = [
+        // Kategori utama (Travel & Bus)
+        $categories = [
             [
-                'image'       => asset('images/transport/travel.png'),
-                'title'       => 'Travel',
-                'description' => 'Dapatkan layanan travel untuk perjalanan jarak jauh',
-                'button'      => 'Rincian',
+                'type'        => 'travel',
+                'title'       => 'Agen Travel',
+                'description' => 'Layanan travel untuk perjalanan luar daerah dari dan ke Pesibar.',
+                'image'       => 'images/transport/travel.png',
+                'modal_id'    => 'modalLuarTravel',
             ],
             [
-                'image'       => asset('images/transport/bus.png'),
-                'title'       => 'Bus',
-                'description' => 'Dapatkan layanan bus untuk perjalanan antar kota',
-                'button'      => 'Rincian',
-            ],
-        ];
-
-        // Data agen sewa mobil (LUAR DAERAH)
-        $mobilAgents = [
-            [
-                'image' => asset('images/transport/travel.png'),
-                'name'  => 'Agen Travel A',
-            ],
-            [
-                'image' => asset('images/transport/travel.png'),
-                'name'  => 'Agen Travel B',
-            ],
-            [
-                'image' => asset('images/transport/travel.png'),
-                'name'  => 'Agen Travel C',
-            ],
-            [
-                'image' => asset('images/transport/travel.png'),
-                'name'  => 'Agen Travel D',
+                'type'        => 'bus',
+                'title'       => 'Agen Pemesanan Bus',
+                'description' => 'Layanan bus antar kota dan antar provinsi.',
+                'image'       => 'images/transport/bus.png',
+                'modal_id'    => 'modalLuarBus',
             ],
         ];
 
-        // Data agen sewa motor (LUAR DAERAH)
-        $motorAgents = [
-            [
-                'image' => asset('images/transport/bus.png'),
-                'name'  => 'Agen Bus A',
-            ],
-            [
-                'image' => asset('images/transport/bus.png'),
-                'name'  => 'Agen Bus B',
-            ],
-            [
-                'image' => asset('images/transport/bus.png'),
-                'name'  => 'Agen Bus C',
-            ],
-        ];
+        // Ambil agen travel & bus dari DB
+        $travelAgents = TransportLuar::where('type', 'travel')->orderBy('id')->get();
+        $busAgents    = TransportLuar::where('type', 'bus')->orderBy('id')->get();
 
         return view('transport-luar', compact(
-            'items',
-            'mobilAgents',
-            'motorAgents'
+            'categories',
+            'travelAgents',
+            'busAgents'
         ));
     }
 }

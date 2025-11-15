@@ -11,7 +11,8 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\TransportController;
-
+use App\Http\Controllers\OlehOlehController;
+use App\Http\Controllers\PenginapanController;
 
 
 // ==== AUTHENTICATION ROUTES ====
@@ -29,10 +30,10 @@ Route::middleware('auth')->group(function () {
 // // ==== HALAMAN UTAMA ====
 Route::get('/', function () {
     return view('welcome');
-})->name('welcome'); 
+})->name('welcome');
 
 Route::get('/beranda', function () {
-    return view('wisatawan.beranda'); 
+    return view('wisatawan.beranda');
 });
 
 
@@ -41,10 +42,10 @@ Route::get('/beranda', [BerandaController::class, 'wisatawan'])->name('beranda.w
 
 Route::get('/category/{id}', [DestinationController::class, 'byCategory'])
     ->name('destinations.category');
-    
+
 Route::get('/destination/{id}', [DestinationController::class, 'show'])
     ->name('destinations.detail');
-    
+
 Route::get('/pemandu-wisata', [PemanduWisataController::class, 'index'])->name('pemandu-wisata.index');
 Route::get('/pemandu-wisata/{agent}', [PemanduWisataController::class, 'show'])->name('pemandu-wisata.show');
 Route::get('/pemandu-wisata/{agent}/paket', [PemanduWisataController::class, 'packages'])->name('pemandu-wisata.packages');
@@ -57,11 +58,11 @@ Route::get('/pemandu-wisata/{agent}/paket/{tourPackage}', [PemanduWisataControll
 */
 // Rute ini hanya bisa diakses oleh user yang login dengan role 'user'
 Route::middleware(['auth', 'role.user'])->prefix('profile')->name('profile.')->group(function () {
-    
+
     Route::get('/', [ProfileController::class, 'show'])->name('show');
     Route::put('/', [ProfileController::class, 'update'])->name('update');
     Route::get('/password', [ProfileController::class, 'showPasswordForm'])->name('password.show');
-    Route::put('/password', [ProfileController::class, 'update'])->name('password.update'); 
+    Route::put('/password', [ProfileController::class, 'update'])->name('password.update');
 });
 
 /*
@@ -91,7 +92,7 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
     Route::get('/packages/{tourPackage}/edit', [AgentPackageController::class, 'edit'])->name('packages.edit');
     Route::put('/packages/{tourPackage}', [AgentPackageController::class, 'update'])->name('packages.update');
     Route::delete('/packages/{tourPackage}', [AgentPackageController::class, 'destroy'])->name('packages.destroy');
-    
+
     // Rute untuk mengelola rental (jika ada)
     // Route::resource('/vehicles', AgentVehicleController::class);
 
@@ -101,6 +102,8 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
 Route::get('/register/agent', [AuthController::class, 'showAgentRegisterForm'])->name('register.agent');
 Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('register.agent.post');
 
+
+// ==== MARKETPLACE ROUTES ====
 Route::prefix('marketplace')->group(function () {
     // Halaman utama Pasar Digital
     Route::get('/', [MarketplaceController::class, 'index'])
@@ -112,5 +115,14 @@ Route::prefix('marketplace')->group(function () {
 
     Route::get('/transportasi/luar', [TransportController::class, 'luar'])
         ->name('transport.luar');
+
+    // Penginapan
+    Route::get('/penginapan', [PenginapanController::class, 'index'])
+        ->name('penginapan.index');
+
+    // Oleh-oleh
+    Route::get('/oleh-oleh', [OlehOlehController::class, 'index'])
+        ->name('oleh.index');
+
 });
 

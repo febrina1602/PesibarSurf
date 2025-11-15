@@ -6,5 +6,15 @@ use Illuminate\Database\Eloquent\Model;
 
 class Marketplace extends Model
 {
-    protected $guarded = [];
+    protected $fillable = [
+        'image',
+        'title',
+        'description',
+        'slug',
+        'buttons',
+    ];
+
+    protected $casts = [
+        'buttons' => 'array',  // otomatis decode JSON → array
+    ];
 }

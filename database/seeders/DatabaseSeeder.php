@@ -21,7 +21,11 @@ class DatabaseSeeder extends Seeder
 
         $this->call([
             DestinationCategorySeeder::class, 
-            DestinationSeeder::class,  
+            DestinationSeeder::class,
+            MarketplaceSeeder::class,
+            PenginapanSeeder::class, 
+            OlehOlehSeeder::class,
+           TransportSeeder::class, 
         ]);
     }
 }
