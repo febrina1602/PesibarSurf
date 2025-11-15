@@ -29,9 +29,14 @@ Route::get('/', function () {
     return view('welcome');
 })->name('welcome'); 
 
+Route::get('/tentang', function () {
+    return view('tentang');
+})->name('tentang');
+
 Route::get('/beranda', function () {
     return view('wisatawan.beranda'); 
 });
+
 
 
 // ==== BERANDA & DESTINASI & PEMANDU WISATA (ROUTE WISATAWAN) ====

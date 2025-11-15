@@ -56,7 +56,7 @@
         .nav-link-custom.active { color: #dc3545; border-bottom-color: #dc3545; }
         
         /* CATEGORY SECTION STYLES */
-        .category-section { background: linear-gradient(to bottom, #FFE75D, #FDDEDC); padding: 40px 0; }
+        .category-section { background: linear-gradient(90deg, #D19878, #FFE75D); padding: 40px 0; }
         .category-card { background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: pointer; }
         .category-card:hover { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transform: translateY(-2px); }
         .category-icon { width: 64px; height: 64px; }
@@ -98,11 +98,12 @@
     {{-- FOOTER --}}
     <footer class="footer position-relative">
         <div class="container py-3">
+            {{-- AWAL PERUBAHAN --}}
             <div class="row align-items-start">
-                <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
+                <div class="col-md-4 d-flex align-items-center mb-3 mb-md-0">
                     <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;" loading="lazy">
                 </div>
-                <div class="col-md-3 text-center mb-3 mb-md-0">
+                <div class="col-md-4 text-center mb-3 mb-md-0">
                     <h6 class="fw-bold mb-2">Ikuti Kami</h6>
                     <div class="d-flex justify-content-center align-items-center social-icons">
                         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -112,19 +113,18 @@
                         <a href="#"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
-                <div class="col-md-3 mb-3 mb-md-0">
-                    <h6 class="fw-bold mb-2">Dibuat Oleh:</h6>
-                    <p class="mb-1">Febrina Aulia Azahra</p>
-                    <p class="mb-1">Carissa Oktavia Sanjaya</p>
-                    <p class="mb-1">Dilvi Yola</p>
-                    <p class="mb-0">M. Hafiz Abyan</p>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <h6 class="fw-bold mb-2">Informasi</h6>
-                    <p class="mb-1"><a href="#" class="footer-link">Tentang</a></p>
-                    <p class="mb-0"><a href="#" class="footer-link">FAQ</a></p>
+                    <p class="mb-1"><a href="{{ route('tentang') }}" class="footer-link">Tentang</a></p>
                 </div>
             </div>
+
+            <hr class="my-3" style="border-top: 1px solid rgba(0,0,0,0.2);">
+            
+            <div class="text-center small">
+                <p class="mb-0">&copy; {{ date('Y') }} PesibarSurf. Hak Cipta Dilindungi.</p>
+            </div>
+            {{-- AKHIR PERUBAHAN --}}
         </div>
         <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern" loading="lazy">
     </footer>
