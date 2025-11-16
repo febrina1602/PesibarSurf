@@ -1,27 +1,32 @@
 @extends('layouts.admin')
 
-@section('title', 'Manajemen Pengguna')
+@section('title', 'Kelola Pengguna - PesibarSurf')
 
-@section('content')
-<div class="container-fluid">
+@section('admin_content')
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Manajemen Pengguna</h1>
+        <h1 class="h3 mb-0 text-gray-800">Kelola Pengguna</h1>
         <a href="{{ route('admin.users.create') }}" class="btn btn-primary shadow-sm">
-            <i class="fas fa-plus fa-sm text-white-50"></i> Tambah Pengguna Baru
+            <i class="fas fa-plus fa-sm"></i> Tambah Pengguna Baru
         </a>
     </div>
 
     @if(session('success'))
-        <div class="alert alert-success">{{ session('success') }}</div>
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
     @if(session('error'))
-        <div class="alert alert-danger">{{ session('error') }}</div>
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            {{ session('error') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     @endif
 
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Daftar Semua Pengguna</h6>
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header border-0 py-3">
+            <h6 class="m-0 fw-bold text-dark">Daftar Semua Pengguna</h6>
         </div>
         <div class="card-body">
             <div class="table-responsive">
@@ -43,24 +48,25 @@
                                 <td>{{ $user->email }}</td>
                                 <td>
                                     @if($user->role == 'admin')
-                                        <span class="badge badge-primary">Admin</span>
+                                        <span class="badge bg-primary">Admin</span>
                                     @elseif($user->role == 'agent')
-                                        <span class="badge badge-info">Agent</span>
+                                        <span class="badge bg-info text-dark">Agent</span>
                                     @else
-                                        <span class="badge badge-secondary">User</span>
+                                        <span class="badge bg-secondary">User</span>
                                     @endif
                                 </td>
                                 <td>
-                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <a href="{{ route('admin.users.edit', $user->id) }}" class="btn btn-warning btn-sm" title="Edit">
+                                        <i class="fas fa-edit"></i>
                                     </a>
                                     
                                     <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="d-inline"
-                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini? Tindakan ini tidak dapat dibatalkan.');">
+                                          onsubmit="return confirm('Apakah Anda yakin ingin menghapus pengguna ini ({{ $user->full_name }})? Tindakan ini tidak dapat dibatalkan.');">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger btn-sm">
-                                            <i class="fas fa-trash"></i> Hapus
+                                        <button type="submit" class="btn btn-danger btn-sm" title="Hapus"
+                                            {{ $user->id == auth()->id() ? 'disabled' : '' }}>
+                                            <i class="fas fa-trash"></i>
                                         </button>
                                     </form>
                                 </td>
@@ -74,12 +80,12 @@
                 </table>
             </div>
             
-            <div class="d-flex justify-content-center">
-                {{ $users->links() }}
-            </div>
+            @if ($users->hasPages())
+                <div class="d-flex justify-content-center mt-3">
+                    {{ $users->links() }}
+                </div>
+            @endif
 
         </div>
     </div>
-
-</div>
 @endsection

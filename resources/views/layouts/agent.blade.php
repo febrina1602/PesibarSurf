@@ -1,11 +1,5 @@
 @extends('layouts.app')
 
-{{-- 
-======================================================================
-INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
-======================================================================
---}}
-
 @section('content')
 <div class="min-vh-100 bg-light">
     
@@ -19,7 +13,6 @@ INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
             </a>
             <div class="d-flex align-items-center" style="min-width: 150px; justify-content: flex-end;">
                 @auth
-                    {{-- Foto Profil User --}}
                     <a href="{{ route('agent.profile.edit') }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3" title="Profil">
                         <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                              alt="Foto Profil" 
@@ -29,7 +22,6 @@ INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
                         </span>
                     </a>
                     
-                    {{-- Tombol Logout --}}
                     <form action="{{ route('logout') }}" method="POST" class="m-0">
                         @csrf
                         <button type="submit" class="btn btn-link text-danger p-0" title="Logout" 
@@ -73,18 +65,13 @@ INI ADALAH LAYOUT MASTER UNTUK SEMUA HALAMAN AGEN
                 @else
                      <a href="{{ route('agent.profile.create') }}" 
                        class="nav-link-custom {{ request()->routeIs('agent.profile.*') ? 'active' : '' }}">
-                       <i class="fas fa-plus-circle me-1"></i> Buat Profil Agensi
+                       Buat Profil Agensi
                     </a>
                 @endif
             </div>
         </div>
     </nav>
 
-    {{-- 
-    ======================================================================
-    KONTEN HALAMAN SPESIFIK (DASHBOARD, PROFIL, PAKET) AKAN MASUK DI SINI
-    ======================================================================
-    --}}
     @yield('agent_content')
 
 </div>

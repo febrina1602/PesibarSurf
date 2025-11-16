@@ -15,7 +15,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        // Ambil semua user, urutkan berdasarkan role, lalu paginasi
+        // Ambil semua user (termasuk admin & agent), urutkan berdasarkan role, lalu paginasi
         $users = User::orderBy('role', 'asc')->orderBy('full_name', 'asc')->paginate(15);
         
         return view('admin.users.index', compact('users'));
@@ -90,6 +90,9 @@ class UserController extends Controller
         // Hash password baru jika ada
         if ($request->filled('password')) {
             $data['password'] = Hash::make($data['password']);
+        } else {
+            // Jika password tidak diisi, jangan update password
+            unset($data['password']);
         }
 
         $user->update($data);

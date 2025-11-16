@@ -115,10 +115,11 @@ Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('
 // Rute ini hanya bisa diakses oleh user yang login dengan role 'admin'
 Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->group(function () {
     
-    // Rute untuk Dashboard Admin
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
-
-    // Rute resource untuk mengelola User
     Route::resource('users', \App\Http\Controllers\Admin\UserController::class);
+    Route::get('agents', [\App\Http\Controllers\Admin\AgentController::class, 'index'])->name('agents.index');
+    Route::patch('agents/{agent}/approve', [\App\Http\Controllers\Admin\AgentController::class, 'approve'])->name('agents.approve');
+    Route::patch('agents/{agent}/reject', [\App\Http\Controllers\Admin\AgentController::class, 'reject'])->name('agents.reject');
+    Route::resource('agents', \App\Http\Controllers\Admin\AgentController::class)->except(['create', 'store']);
 
 });

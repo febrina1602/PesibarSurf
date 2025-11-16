@@ -36,7 +36,7 @@ class AgentProfileController extends Controller
         $uploadFile = function ($fileKey) use ($request, &$data) {
             if ($request->hasFile($fileKey)) {
                 $path = $request->file($fileKey)->store('agent-documents', 'public');
-                $data[$fileKey . '_url'] = Storage::url($path); 
+                $data[$fileKey . '_url'] = $path;
             }
         };
         $uploadFile('banner_image');
@@ -97,7 +97,7 @@ class AgentProfileController extends Controller
                     Storage::disk('public')->delete($oldPath);
                 }
                 $path = $request->file($fileKey)->store('agent-documents', 'public');
-                $agentData[$urlKey] = Storage::url($path);
+                $agentData[$urlKey] = $path;
             }
         };
         $uploadFile('banner_image');

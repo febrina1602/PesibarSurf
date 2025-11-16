@@ -46,12 +46,12 @@
                    Dashboard
                 </a>
                 
-                <a href="#" {{-- Nanti ganti ke route('admin.users.index') --}}
+                <a href="{{ route('admin.users.index') }}" 
                    class="nav-link-custom {{ request()->routeIs('admin.users.*') ? 'active' : '' }}">
                    Kelola Pengguna
                 </a>
 
-                <a href="#" {{-- Nanti ganti ke route('admin.agents.index') --}}
+                <a href="{{ route('admin.agents.index') }}"
                    class="nav-link-custom {{ request()->routeIs('admin.agents.*') ? 'active' : '' }}">
                    Kelola Agen
                 </a>

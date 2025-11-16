@@ -63,6 +63,14 @@
                         </div>
 
                         <div class="mb-3">
+                            <label for="phone_number" class="form-label">Nomor Telepon (WA) Penanggung Jawab <span class="text-danger">*</span></label>
+                            <input type="tel" class="form-control" id="phone_number" name="phone_number" 
+                                   placeholder="Contoh: 08123456789" 
+                                   value="{{ old('phone_number', Auth::user()->phone_number) }}" required>
+                            <div class="form-text">Nomor ini akan disimpan di profil user Anda.</div>
+                        </div>
+
+                        <div class="mb-3">
                             <label for="address" class="form-label">Alamat Lengkap Agensi</label>
                             <textarea class="form-control" id="address" name="address" rows="3" 
                                       placeholder="Masukkan alamat lengkap kantor atau lokasi agensi Anda" 
@@ -72,7 +80,7 @@
                         <div class="mb-3">
                             <label for="description" class="form-label">Deskripsi Singkat Agensi</label>
                             <textarea class="form-control" id="description" name="description" rows="4" 
-                                      placeholder="Jelaskan tentang agensi Anda, layanan yang ditawarkan, dll.">{{ old('description') }}</textarea>
+                                      placeholder="Jelaskan tentang agensi Anda, layanan yang ditawarkan, dll." required>{{ old('description') }}</textarea>
                         </div>
 
                         <hr class="my-4">
@@ -80,8 +88,8 @@
 
                         <div class="mb-3">
                             <label for="banner_image" class="form-label">Upload Gambar Banner</label>
-                            <input type="file" class="form-control" id="banner_image" name="banner_image" accept="image/jpeg,image/png,image/jpg">
-                            <div class="form-text">Opsional. (JPG, PNG maks 2MB)</div>
+                            <input type="file" class="form-control" id="banner_image" name="banner_image" accept="image/jpeg,image/png,image/jpg" required>
+                            <div class="form-text">. (JPG, PNG maks 2MB)</div>
                         </div>
                         
                         <div class="mb-3">
@@ -92,8 +100,8 @@
                         
                         <div class="mb-3">
                             <label for="file_siup" class="form-label">Upload Scan SIUP/SKU/NIB</label>
-                            <input type="file" class="form-control" id="file_siup" name="file_siup" accept="image/jpeg,image/png,image/jpg,application/pdf">
-                            <div class="form-text">Opsional. (PDF, JPG, PNG maks 2MB)</div>
+                            <input type="file" class="form-control" id="file_siup" name="file_siup" accept="image/jpeg,image/png,image/jpg,application/pdf" required>
+                            <div class="form-text">Wajib. (PDF, JPG, PNG maks 2MB)</div>
                         </div>
 
                         <div class="d-grid mt-4 pt-2">

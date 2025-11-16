@@ -18,9 +18,9 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs fw-bold text-uppercase mb-1">
-                                Total Pengguna</div>
-                            <div class="h5 mb-0 fw-bold text-gray-800">0</div>
+                            <div class="text-xs fw-bold text-danger text-uppercase mb-1">
+                                Total Wisatawan</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalUsers }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-users fa-2x text-gray-300"></i>
@@ -35,9 +35,9 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs fw-bold text-uppercase mb-1">
+                            <div class="text-xs fw-bold text-danger text-uppercase mb-1">
                                 Total Agen</div>
-                            <div class="h5 mb-0 fw-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalAgents }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-user-tie fa-2x text-gray-300"></i>
@@ -52,9 +52,9 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs fw-bold text-uppercase mb-1">
+                            <div class="text-xs fw-bold text-danger text-uppercase mb-1">
                                 Total Destinasi</div>
-                            <div class="h5 mb-0 fw-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalDestinations }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-map-marked-alt fa-2x text-gray-300"></i>
@@ -69,9 +69,9 @@
                 <div class="card-body">
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
-                            <div class="text-xs fw-bold text-uppercase mb-1">
+                            <div class="text-xs fw-bold text-danger text-uppercase mb-1">
                                 Total Paket Tur</div>
-                            <div class="h5 mb-0 fw-bold text-gray-800">0</div>
+                            <div class="h5 mb-0 fw-bold text-gray-800">{{ $totalPackages }}</div>
                         </div>
                         <div class="col-auto">
                             <i class="fas fa-box-open fa-2x text-gray-300"></i>
