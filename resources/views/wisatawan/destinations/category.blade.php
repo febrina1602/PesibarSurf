@@ -84,7 +84,7 @@
                 @forelse($destinations as $destination)
                 <div class="col">
                     <a href="{{ route('destinations.detail', $destination->id) }}" class="card h-100 shadow-sm text-decoration-none text-dark border-0">
-                        <img src="{{ $destination->image_url ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80' }}" 
+                        <img src="{{ asset('storage/' . $destination->image_url) ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80' }}" 
                              alt="{{ $destination->name }}" 
                              class="card-img-top" style="height: 200px; object-fit: cover;">
                         

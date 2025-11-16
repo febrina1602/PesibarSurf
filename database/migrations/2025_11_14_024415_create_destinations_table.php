@@ -24,8 +24,8 @@ return new class extends Migration
             $table->decimal('parking_price', 12, 2)->default(0); 
             $table->text('popular_activities')->nullable();
             $table->boolean('is_featured')->default(false); 
-            $table->decimal('latitude', 10, 8); 
-            $table->decimal('longitude', 11, 8); 
+            $table->decimal('latitude', 10, 8)->nullable(); 
+            $table->decimal('longitude', 11, 8)->nullable(); 
             $table->timestamps(); 
         });
     }

@@ -80,7 +80,7 @@
             $heroImage = $agent->banner_image_url ?? ($tourPackages->first()->cover_image_url ?? null);
         @endphp
         <div class="w-100">
-            <img src="{{ $heroImage ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80' }}" 
+            <img src="{{ asset('storage/' .$heroImage) ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80' }}" 
                 alt="{{ $agent->name }}" 
                 class="w-100" style="height: 500px; object-fit: cover;">
         </div> 

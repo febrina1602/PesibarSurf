@@ -121,5 +121,7 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
     Route::patch('agents/{agent}/approve', [\App\Http\Controllers\Admin\AgentController::class, 'approve'])->name('agents.approve');
     Route::patch('agents/{agent}/reject', [\App\Http\Controllers\Admin\AgentController::class, 'reject'])->name('agents.reject');
     Route::resource('agents', \App\Http\Controllers\Admin\AgentController::class)->except(['create', 'store']);
+    Route::resource('destinations', \App\Http\Controllers\Admin\DestinationController::class);
+    Route::resource('categories', \App\Http\Controllers\Admin\DestinationCategoryController::class);
 
 });

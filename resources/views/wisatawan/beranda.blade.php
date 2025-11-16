@@ -117,9 +117,10 @@
                 @forelse($recommendations as $destination)
                 <div class="col">
                     <a href="{{ route('destinations.detail', $destination->id) }}" class="card h-100 shadow-sm text-decoration-none text-dark border-0">
-                        <img src="{{ $destination->image_url ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80' }}" 
-                            alt="{{ $destination->name }}" 
-                            class="card-img-top" style="height: 200px; object-fit: cover;">
+                        <img src="{{ asset('storage/' . $destination->image_url) ?? 'https.images.unsplash.com/photo-1507525428034-b723cf961d3e?w=400&q=80' }}" 
+                                alt="{{ $destination->name }}" 
+                                class="card-img-top" style="height: 200px; object-fit: cover;"
+                                onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">
                         
                         <div class="card-body">
                             <div class="d-flex justify-content-between text-start mb-2">
@@ -139,7 +140,7 @@
                             </div>
                             
                             @if($destination->address)
-                            <div class="d-flex align-items-center text-muted small mb-3">
+                            <div class="d-flex text-start text-muted small mb-3">
                                 <svg style="width: 1rem; height: 1rem;" class="me-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
                                 <span>{{ $destination->address }}</span>
                             </div>

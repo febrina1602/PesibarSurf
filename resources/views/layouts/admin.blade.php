@@ -56,7 +56,12 @@
                    Kelola Agen
                 </a>
 
-                <a href="#" {{-- Nanti ganti ke route('admin.destinations.index') --}}
+                <a href="{{ route('admin.categories.index') }}" 
+                   class="nav-link-custom {{ request()->routeIs('admin.categories.*') ? 'active' : '' }}">
+                   Kelola Kategori Destinasi
+                </a>
+
+                <a href="{{ route('admin.destinations.index') }}" 
                    class="nav-link-custom {{ request()->routeIs('admin.destinations.*') ? 'active' : '' }}">
                    Kelola Destinasi
                 </a>

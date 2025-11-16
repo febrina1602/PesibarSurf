@@ -78,9 +78,10 @@
     </nav>
 
     <div>
-        <img src="{{ $destination->image_url ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80' }}" 
+        <img src="{{ asset('storage/' . $destination->image_url) ?? 'https.images.unsplash.com/photo-1507525428034-b723cf961d3e?w=1200&q=80' }}" 
              alt="{{ $destination->name }}" 
-             class="w-100" style="height: 500px; object-fit: cover;">
+             class="w-100" style="height: 500px; object-fit: cover;"
+             onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">
     </div>
 
     <div class="container py-5">

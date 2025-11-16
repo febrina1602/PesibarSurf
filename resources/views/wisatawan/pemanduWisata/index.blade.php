@@ -88,7 +88,7 @@
                     @foreach($agents as $agent)
                     <div class="col">
                         <div class="card h-100 shadow-sm border-0">
-                            <img src="{{ $agent->banner_image_url ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' }}" 
+                            <img src="{{ asset('storage/' . $agent->banner_image_url) ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=600&q=80' }}" 
                                  alt="{{ $agent->name }}" 
                                  class="card-img-top" style="height: 200px; object-fit: cover;">
                             
