@@ -1,14 +1,18 @@
 <?php
 
-use App\Http\Controllers\Agent\AgentDashboardController;
-use App\Http\Controllers\Agent\AgentPackageController;
-use App\Http\Controllers\Agent\AgentProfileController;
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
-use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\PemanduWisataController;
 use App\Http\Controllers\ProfileController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\OlehOlehController;
+use App\Http\Controllers\TransportController;
+use App\Http\Controllers\PenginapanController;
+use App\Http\Controllers\DestinationController;
+use App\Http\Controllers\MarketplaceController;
+use App\Http\Controllers\PemanduWisataController;
+use App\Http\Controllers\Agent\AgentPackageController;
+use App\Http\Controllers\Agent\AgentProfileController;
+use App\Http\Controllers\Agent\AgentDashboardController;
 
 
 
@@ -124,4 +128,26 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('destinations', \App\Http\Controllers\Admin\DestinationController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\DestinationCategoryController::class);
 
+});
+
+// ==== MARKETPLACE ROUTES ====
+Route::prefix('marketplace')->group(callback: function () {
+    // Halaman utama Pasar Digital
+    Route::get(uri: '/', action: [MarketplaceController::class, 'index'])
+        ->name(name: 'marketplace.index');
+
+    // Halaman Transportasi Daerah (menu dalam)
+    Route::get(uri: '/transportasi/daerah', action: [TransportController::class, 'daerah'])
+        ->name(name: 'transport.daerah');
+
+    Route::get(uri: '/transportasi/luar', action: [TransportController::class, 'luar'])
+        ->name(name: 'transport.luar');
+
+    // Penginapan
+    Route::get(uri: '/penginapan', action: [PenginapanController::class, 'index'])
+        ->name(name: 'penginapan.index');
+
+    // Oleh-oleh
+    Route::get(uri: '/oleh-oleh', action: [OlehOlehController::class, 'index'])
+        ->name(name: 'oleh.index');
 });

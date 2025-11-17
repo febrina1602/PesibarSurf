@@ -84,6 +84,24 @@
             header { padding: 15px 20px; }
             .nav-link-custom { font-size: 14px; padding: 10px 6px; }
         }
+
+        /* =============================
+        CSS KHUSUS HALAMAN MARKETPLACE
+        ============================= */
+
+        /* FULLSIZE tapi tetap responsive */
+
+        .app-wrapper {
+            width: 100%;
+            max-width: 100%;
+            margin: 0;
+            background: #f7f7f7;
+            min-height: 100vh;
+            position: relative;
+            padding-bottom: 80px;
+            /* ruang untuk bottom nav */
+        }
+
     </style>
 
     {{-- Ini adalah tempat style dari login/register akan dimasukkan --}}
