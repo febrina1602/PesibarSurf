@@ -3,18 +3,48 @@
 @section('title', 'Oleh-oleh | PesibarSurf')
 
 @section('content')
-<div class="app-wrapper">
+<div class="app-wrapper bg-white"> {{-- 1. Wrapper standar --}}
 
-    {{-- HEADER --}}
-    <div class="marketplace-header-img d-flex align-items-end justify-content-center pb-2">
-        <h5 class="marketplace-title text-center mb-2">Oleh-oleh</h5>
-    </div>
+    {{-- =============================================== --}}
+    {{-- ==== 2. HEADER & NAVIGASI STANDAR ==== --}}
+    {{-- =============================================== --}}
+    <header class="header-gradient shadow-sm sticky-top"> 
+        <div class="container py-3 d-flex align-items-center justify-content-between">
+            {{-- Tombol Kembali --}}
+            <a href="{{ route('marketplace.index') }}" class="text-dark text-decoration-none">
+                <i class="fas fa-arrow-left fa-lg"></i>
+            </a>
+            {{-- Judul Halaman --}}
+            <h5 class="fw-bold mb-0">Oleh-oleh</h5> 
+            {{-- Spacer --}}
+            <div style="width: 24px;"></div> 
+        </div>
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
+    </header>
 
-    {{-- LIST OLEH-OLEH --}}
-    <div class="container py-3">
+    <nav class="nav-custom border-top bg-white shadow-sm">
+        <div class="container py-0">
+            <div class="d-flex gap-4 justify-content-left">
+                <a href="{{ route('beranda.wisatawan') }}" class="nav-link-custom">
+                    Beranda
+                </a>
+                <a href="{{ route('marketplace.index') }}" class="nav-link-custom active"> {{-- Set 'active' --}}
+                   Pasar Digital
+                </a>
+                <a href="{{ route('pemandu-wisata.index') }}" class="nav-link-custom">
+                   Pemandu Wisata
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    {{-- ========================================== --}}
+    {{-- ==== 3. KONTEN ASLI HALAMAN ==== --}}
+    {{-- ========================================== --}}
+    <div class="container py-4"> {{-- 4. Container untuk konten --}}
 
         @forelse ($olehOlehList as $item)
-            <div class="card marketplace-card mb-3">
+            <div class="card marketplace-card mb-3" style="border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 0;">
                 <div class="card-body d-flex align-items-center">
 
                     {{-- Gambar toko --}}
@@ -25,7 +55,6 @@
 
                     <div>
                         <h6 class="fw-semibold mb-1">{{ $item->name }}</h6>
-
                         <div class="d-flex align-items-center gap-3 mb-1 small text-muted">
                             <span>
                                 <i class="fa-solid fa-location-dot me-1"></i>
@@ -65,33 +94,14 @@
         @endforelse
 
     </div>
-</div>
+</div> {{-- Tutup .app-wrapper --}}
 
-{{-- BOTTOM NAV (opsional sama pattern-nya) --}}
-<div class="bottom-nav-market d-flex justify-content-around">
-    <div class="nav-item-custom">
-        <i class="fa-solid fa-house"></i>
-        <span>Beranda</span>
-    </div>
-    <div class="nav-item-custom active">
-        <i class="fa-solid fa-bag-shopping"></i>
-        <span>Pasar Digital</span>
-    </div>
-    <div class="nav-item-custom">
-        <i class="fa-solid fa-bus"></i>
-        <span>Pemandu Wisata</span>
-    </div>
-    <div class="nav-item-custom">
-        <i class="fa-solid fa-user"></i>
-        <span>Akun</span>
-    </div>
-</div>
-
-{{-- =============== MODAL DETAIL OLEH-OLEH =============== --}}
+{{-- ========================================== --}}
+{{-- ==== 5. MODAL (TETAP DI LUAR WRAPPER) ==== --}}
+{{-- ========================================== --}}
 <div class="modal fade" id="modalDetailOleh" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered">
         <div class="modal-content border-0 rounded-4 overflow-hidden">
-
             {{-- HEADER MODAL --}}
             <div class="marketplace-header-img" style="height:120px;">
                 <div class="w-100 text-center mb-3">
@@ -100,28 +110,15 @@
                         <span class="d-block">Oleh-oleh</span>
                     </div>
                 </div>
-
-                <button type="button"
-                        class="btn-close position-absolute end-0 mt-3 me-3"
-                        data-bs-dismiss="modal"
-                        aria-label="Close"></button>
+                <button type="button" class="btn-close position-absolute end-0 mt-3 me-3" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-
             {{-- BODY MODAL --}}
             <div class="modal-body" style="background:#f7f7f7;">
                 <div class="container" style="max-width: 700px;">
-
-                    {{-- Gambar utama --}}
                     <div class="mb-3">
-                        <img id="olImage"
-                             src=""
-                             alt="Detail Oleh-oleh"
-                             style="width:100%; border-radius:20px; object-fit:cover; max-height:260px;">
+                        <img id="olImage" src="" alt="Detail Oleh-oleh" style="width:100%; border-radius:20px; object-fit:cover; max-height:260px;">
                     </div>
-
-                    {{-- Nama & info --}}
                     <h5 id="olName" class="fw-semibold mb-2">Nama Toko</h5>
-
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <div class="d-flex align-items-center gap-3 small text-muted">
                             <span>
@@ -133,13 +130,10 @@
                                 <span id="olRating">-</span>
                             </span>
                         </div>
-
                         <button class="btn btn-link p-0 text-muted">
                             <i class="fa-solid fa-share-nodes"></i>
                         </button>
                     </div>
-
-                    {{-- Kisaran harga --}}
                     <div class="card mb-3" style="border-radius:16px;">
                         <div class="card-body d-flex justify-content-between align-items-center">
                             <div>
@@ -148,35 +142,24 @@
                             </div>
                         </div>
                     </div>
-
-                    {{-- Deskripsi --}}
                     <p id="olDescription" class="small text-muted mb-4">
                         Deskripsi oleh-oleh akan tampil di sini.
                     </p>
-
-                    {{-- Tombol Hubungi --}}
-                    <a id="olContact"
-                       href="#"
-                       target="_blank"
-                       class="btn w-100"
-                       style="background:linear-gradient(90deg,#F9C449,#E9A95C); color:#000; font-weight:600; border-radius:999px;">
+                    <a id="olContact" href="#" target="_blank" class="btn w-100" style="background:linear-gradient(90deg,#F9C449,#E9A95C); color:#000; font-weight:600; border-radius:999px;">
                         <i class="fa-brands fa-whatsapp me-2"></i>
                         Hubungi via WhatsApp
                     </a>
-
                 </div>
             </div>
-
         </div>
     </div>
 </div>
-@endsection
 
-@section('bottom-nav')
-    @include('partials.bottom-nav', ['active' => 'marketplace'])
+{{-- 6. HAPUS @section('bottom-nav') --}}
 @endsection
 
 @push('scripts')
+{{-- Script JS tetap sama --}}
 <script>
 document.addEventListener('DOMContentLoaded', function () {
     const modalEl   = document.getElementById('modalDetailOleh');

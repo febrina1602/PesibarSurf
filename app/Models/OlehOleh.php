@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class OlehOleh extends Model
 {
+    protected $table = 'oleh_oleh';
+    
     protected $fillable = [
         'name',
         'image',

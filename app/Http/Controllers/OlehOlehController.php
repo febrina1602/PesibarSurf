@@ -10,6 +10,6 @@ class OlehOlehController extends Controller
     {
         $olehOlehList = OlehOleh::orderBy('id')->get();
 
-        return view('oleh_oleh', compact('olehOlehList'));
+        return view('wisatawan.pasarDigital.oleh_oleh', compact('olehOlehList'));
     }
 }

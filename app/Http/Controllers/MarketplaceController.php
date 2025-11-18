@@ -11,6 +11,6 @@ class MarketplaceController extends Controller
         // Ambil semua kategori dari database
         $categories = Marketplace::orderBy('id')->get();
 
-        return view('marketplace', compact('categories'));
+        return view('wisatawan.pasarDigital.marketplace', compact('categories'));
     }
 }

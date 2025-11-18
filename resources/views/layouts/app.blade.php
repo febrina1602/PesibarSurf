@@ -102,8 +102,9 @@
         .footer { background: linear-gradient(180deg, #FFE467, #FFDFCF); color: #000; position: relative; overflow: hidden; padding: 30px 0; flex-shrink: 0; }
         .footer a.footer-link { color: #000; text-decoration: none; }
         .footer a.footer-link:hover { text-decoration: underline; }
-        .social-icons a { color: #000; font-size: 22px; margin: 0 10px; transition: all 0.3s ease-in-out; }
-        .social-icons a:hover { color: red; transform: translateY(-3px); }
+        .social-icons a {color: #000; font-size: inherit; text-decoration: none; margin-bottom: 0; transition: all 0.3s ease-in-out; }
+        .social-icons a:hover { text-decoration: underline;  transform: none; color: #000;}
+        .social-icons a i { margin-right: 8px; font-size: 16px; width: 20px; text-align: center}
         .siger-pattern { position: absolute; bottom: 0; left: 0; width: 100%; height: auto; pointer-events: none; }
         
         /* RESPONSIVE STYLES */
@@ -117,8 +118,6 @@
         CSS KHUSUS HALAMAN MARKETPLACE
         ============================= */
 
-        /* FULLSIZE tapi tetap responsive */
-
         .app-wrapper {
             width: 100%;
             max-width: 100%;
@@ -126,8 +125,86 @@
             background: #f7f7f7;
             min-height: 100vh;
             position: relative;
-            padding-bottom: 80px;
-            /* ruang untuk bottom nav */
+        }
+        .marketplace-header-img {
+            height: 80px;
+            border-radius: 0;
+            display: flex;
+            align-items: flex-end;
+            justify-content: center;
+            position: relative;
+
+            /* GRADIENT DASAR */
+            background: linear-gradient(180deg, #FFE467, #FFDFCF);
+        }
+
+        /* Tambahkan pattern SIGER */
+        .marketplace-header-img::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-image: url('/images/siger-pattern.png');
+            background-repeat: repeat-x;
+            background-position: center bottom;
+            background-size: 900px auto;
+            /* sesuaikan besar kecilnya */
+            opacity: 0.50;
+            /* supaya samar seperti contoh */
+            pointer-events: none;
+        }
+
+        .marketplace-title {
+            font-weight: 700;
+            font-size: 22px;
+        }
+
+        .marketplace-title span {
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        @media (max-width: 576px) {
+            .modal-dialog.modal-xl, 
+            .modal-dialog.modal-lg {
+                margin: 0.5rem; /* Margin lebih tipis di HP */
+            }
+        }
+
+
+        .marketplace-card {
+            background-color: #fff;
+            border-radius: 20px; /* Lebih bulat */
+            border: none;
+            /* Shadow halus */
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            overflow: hidden;
+        }
+
+        /* Efek Hover Kartu (Naik sedikit) */
+        .marketplace-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Deskripsi teks */
+        .marketplace-desc {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #6c757d; /* Abu-abu lembut */
+        }
+
+        .btn-market {
+            background-color: #d6181f;
+            color: #fff;
+            border-radius: 999px;
+            font-size: 11px;
+            padding: 6px 12px;
+        }
+
+        .btn-market:hover {
+            background-color: #b51219;
+            color: #fff;
         }
 
     </style>
@@ -145,18 +222,16 @@
     <footer class="footer position-relative">
         <div class="container py-3">
             <div class="row align-items-start">
-                <div class="col-md-4 d-flex align-items-center mb-3 mb-md-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;">
+                <div class="col-md-3 d-flex align-items-center mb-3 mb-md-0">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:130px;">
                 </div>
 
-                <div class="col-md-4 text-center mb-3 mb-md-0">
+                <div class="col-md-3 text-start mb-3 mb-md-0">
                     <h6 class="fw-bold mb-2">Ikuti Kami</h6>
-                    <div class="d-flex justify-content-center align-items-center social-icons">
-                        <a href="#"><i class="fab fa-instagram"></i></a>
-                        <a href="#"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#"><i class="fab fa-x-twitter"></i></a>
-                        <a href="#"><i class="fab fa-tiktok"></i></a>
-                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    <div class="d-flex flex-column social-icons">
+                        <p class="mb-1"><a href="mailto:pesibarsurf@gmail"><i class="fa fa-envelope"></i>pesibarsurf@gmail.com</a></p>
+                        <p class="mb-1"><a href="https://www.instagram.com/pesibarsurf/"><i class="fab fa-instagram"></i>PesibarSurf</a></p>
+                        <p class="mb-0"><a href="https://wa.me/62895344533797"><i class="fab fa-whatsapp"></i>+62 895-3445-33797</a></p>
                     </div>
                 </div>
                 <div class="col-md-4">

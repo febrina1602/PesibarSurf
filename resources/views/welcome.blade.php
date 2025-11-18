@@ -5,7 +5,9 @@
 @section('content')
     <header class="header-gradient d-flex justify-content-between align-items-center px-4 py-3">
         <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo" style="height: 50px;">
+            <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo"
+                    style="height:42px" loading="lazy" onerror="this.style.display='none'">
+                <span class="ms-2 fw-bold text-dark d-none d-md-block">PesibarSurf</span>
         </div>
         <div>
             <a href="{{ route('login') }}" class="btn-custom me-2">Masuk</a>

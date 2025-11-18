@@ -38,7 +38,7 @@ class TransportController extends Controller
         $motorAgents = TransportDaerah::where('type', 'motor')->orderBy('id')->get();
         $penyeberanganAgents = TransportDaerah::where('type', 'penyeberangan')->orderBy('id')->get();
 
-        return view('transport-daerah', compact(
+        return view('wisatawan.pasarDigital.transport-daerah', compact(
             'categories',
             'mobilAgents',
             'motorAgents',
@@ -71,7 +71,7 @@ class TransportController extends Controller
         $travelAgents = TransportLuar::where('type', 'travel')->orderBy('id')->get();
         $busAgents    = TransportLuar::where('type', 'bus')->orderBy('id')->get();
 
-        return view('transport-luar', compact(
+        return view('wisatawan.pasarDigital.transport-luar', compact(
             'categories',
             'travelAgents',
             'busAgents'
