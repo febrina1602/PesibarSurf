@@ -11,6 +11,6 @@ class PenginapanController extends Controller
         // Ambil semua penginapan dari DB
         $penginapans = Penginapan::orderBy('id')->get();
 
-        return view('penginapan', compact('penginapans'));
+        return view('penginapan', compact('penginapan'));
     }
 }

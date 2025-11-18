@@ -83,19 +83,10 @@
 <div class="min-vh-100 bg-white">
     
     {{-- HEADER --}}
-    <header>
+    <header class="header-gradient shadow-sm"> 
         <div class="container py-2 d-flex align-items-center justify-content-between">
             
-            @auth
-                @php
-                    $homeRoute = auth()->user()->role == 'agent' 
-                                 ? route('agent.dashboard') 
-                                 : route('beranda.wisatawan');
-                @endphp
-                 <a href="{{ $homeRoute }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
-            @else
-                 <a href="{{ route('welcome') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
-            @endauth
+            <a href="{{ route('beranda.wisatawan') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
                 <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo"
                     style="height:42px" loading="lazy" onerror="this.style.display='none'">
                 <span class="ms-2 fw-bold text-dark d-none d-md-block">PesibarSurf</span>
@@ -125,8 +116,8 @@
                 @auth
                     @php
                         $profileRoute = auth()->user()->role == 'agent' 
-                                      ? route('agent.profile.edit') 
-                                      : route('profile.show'); 
+                                      ? route('agent.dashboard') 
+                                      : route('profile.show');
                     @endphp
                     <a href="{{ $profileRoute }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
                         <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
@@ -147,6 +138,7 @@
                 @endauth
             </div>
         </div>
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
     </header>
     
     @auth

@@ -3,15 +3,16 @@
 @section('title', 'PesibarSurf | Jelajahi Pesona Lampung')
 
 @section('content')
-    <!-- HEADER -->
-    <header>
+    <header class="header-gradient d-flex justify-content-between align-items-center px-4 py-3">
         <div class="d-flex align-items-center">
-            <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo">
+            <img src="{{ asset('images/logo.png') }}" alt="PesibarSurf Logo" style="height: 50px;">
         </div>
         <div>
             <a href="{{ route('login') }}" class="btn-custom me-2">Masuk</a>
             <a href="{{ route('register') }}" class="btn-custom">Daftar</a>
         </div>
+        {{-- TAMBAHKAN Siger Pattern --}}
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
     </header>
 
     <!-- HERO -->

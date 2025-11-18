@@ -60,10 +60,10 @@
 @endpush
 
 @section('content')
-<div class="app-wrapper bg-white"> {{-- Ganti nama div agar tidak bentrok --}}
+<div class="app-wrapper bg-white"> 
     
-        {{-- HEADER --}}
-    <header>
+    {{-- HEADER --}}
+    <header class="header-gradient shadow-sm"> 
         <div class="container py-2 d-flex align-items-center justify-content-between">
             
             <a href="{{ route('beranda.wisatawan') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
@@ -118,9 +118,10 @@
                 @endauth
             </div>
         </div>
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
     </header>
 
-    {{-- ================= NAVIGASI (DIAMBIL DARI DETAIL AGAR KONSISTEN) ================= --}}
+    {{-- NAV --}}
     <nav class="nav-custom border-top bg-white shadow-sm">
         <div class="container py-0">
             <div class="d-flex gap-4 justify-content-left">
@@ -175,7 +176,7 @@
     </section>
 
     {{-- ================= KATEGORI DESTINASI (KONTEN DARI ANDA, PATH DIPERBAIKI) ================= --}}
-    <section class="category-section py-4" style="background: linear-gradient(180deg,#FFDFCF, #FFF);">
+    <section class="category-section py-4">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center mb-3">
                 <h5 class="fw-bold mb-0">Kategori Destinasi</h5>

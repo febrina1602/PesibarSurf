@@ -37,15 +37,43 @@
          * TELAH DIHAPUS DARI SINI KARENA SUDAH ADA DI FILE LOGIN/REGISTER.
         */
 
-        /* HEADER STYLES */
-        header { 
-            background: linear-gradient(90deg, #D19878, #FFE75D); 
-            padding: 15px 40px; 
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center; 
+        /* ================================================= */
+        /* --- TAMBAHKAN STYLE UNTUK HEADER & BUTTON BARU --- */
+        /* ================================================= */
+        .header-gradient {
+            /* Gradien baru: Atas Kuning (#FFE467) ke Bawah Pink (#FFDFCF) */
+            background: linear-gradient(180deg, #FFE467, #FFDFCF);
+            position: relative;
+            overflow: hidden; /* Penting agar siger tidak bocor */
         }
-        header img { height: 50px; }
+
+        .siger-pattern-header {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: auto;
+            pointer-events: none;
+            opacity: 0.15; /* Opacity agar menyatu */
+        }
+
+        /* Tombol Gradien Baru */
+        .btn-pesibar-grad {
+            background: linear-gradient(to right, #FFE75D, #D19878);
+            border: none;
+            color: #333; /* Teks gelap agar kontras */
+            font-weight: 600;
+            border-radius: 12px;
+            padding: 10px 24px;
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+        .btn-pesibar-grad:hover {
+            color: #000;
+            filter: brightness(1.1); /* Sedikit lebih cerah saat hover */
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
         .btn-custom { background-color: red; color: white; border-radius: 8px; padding: 8px 20px; font-weight: 600; border: none; text-decoration: none; transition: all 0.3s ease-in-out; box-shadow: 0 0 0 rgba(0, 0, 0, 0); }
         .btn-custom:hover { background-color: #cc0000; transform: scale(1.0); box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); }
         
@@ -56,7 +84,7 @@
         .nav-link-custom.active { color: #dc3545; border-bottom-color: #dc3545; }
         
         /* CATEGORY SECTION STYLES */
-        .category-section { background: linear-gradient(90deg, #D19878, #FFE75D); padding: 40px 0; }
+        .category-section { background: linear-gradient(180deg, #FFE467, #FFDFCF); padding: 40px 0; }
         .category-card { background-color: white; border-radius: 8px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); padding: 20px; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; transition: all 0.3s ease; cursor: pointer; }
         .category-card:hover { box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); transform: translateY(-2px); }
         .category-icon { width: 64px; height: 64px; }
@@ -71,7 +99,7 @@
         @keyframes blink { 50% { border-color: transparent } }
         
         /* FOOTER STYLES */
-        .footer { background: linear-gradient(90deg, #D19878, #FFE75D); color: #000; position: relative; overflow: hidden; padding: 30px 0 60px 0; flex-shrink: 0; }
+        .footer { background: linear-gradient(180deg, #FFE467, #FFDFCF); color: #000; position: relative; overflow: hidden; padding: 30px 0; flex-shrink: 0; }
         .footer a.footer-link { color: #000; text-decoration: none; }
         .footer a.footer-link:hover { text-decoration: underline; }
         .social-icons a { color: #000; font-size: 22px; margin: 0 10px; transition: all 0.3s ease-in-out; }
@@ -116,11 +144,11 @@
     {{-- FOOTER --}}
     <footer class="footer position-relative">
         <div class="container py-3">
-            {{-- AWAL PERUBAHAN --}}
             <div class="row align-items-start">
                 <div class="col-md-4 d-flex align-items-center mb-3 mb-md-0">
-                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;" loading="lazy">
+                    <img src="{{ asset('images/logo.png') }}" alt="Logo PesibarSurf" class="me-2" style="height:50px;">
                 </div>
+
                 <div class="col-md-4 text-center mb-3 mb-md-0">
                     <h6 class="fw-bold mb-2">Ikuti Kami</h6>
                     <div class="d-flex justify-content-center align-items-center social-icons">
@@ -134,6 +162,7 @@
                 <div class="col-md-4">
                     <h6 class="fw-bold mb-2">Informasi</h6>
                     <p class="mb-1"><a href="{{ route('tentang') }}" class="footer-link">Tentang</a></p>
+                    <p class="mb-0"><a href="#" class="footer-link">Ulasan</a></p>
                 </div>
             </div>
 
@@ -142,7 +171,7 @@
             <div class="text-center small">
                 <p class="mb-0">&copy; {{ date('Y') }} PesibarSurf. Hak Cipta Dilindungi.</p>
             </div>
-            {{-- AKHIR PERUBAHAN --}}
+        </div>
         </div>
         <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern" loading="lazy">
     </footer>

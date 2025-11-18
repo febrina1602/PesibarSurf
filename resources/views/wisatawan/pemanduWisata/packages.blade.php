@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-white min-vh-100">
     {{-- HEADER --}}
-    <header>
+    <header class="header-gradient shadow-sm"> 
         <div class="container py-2 d-flex align-items-center justify-content-between">
             
             <a href="{{ route('beranda.wisatawan') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
@@ -60,18 +60,22 @@
                 @endauth
             </div>
         </div>
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
     </header>
 
     {{-- NAV --}}
-    <nav class="nav-custom border-top bg-white">
+    <nav class="nav-custom border-top bg-white shadow-sm">
         <div class="container py-0">
             <div class="d-flex gap-4 justify-content-left">
                 <a href="{{ route('beranda.wisatawan') }}"
-                class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
+                   class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
                     Beranda
                 </a>
                 <a href="#" class="nav-link-custom">Pasar Digital</a>
-                <a href="{{ route('pemandu-wisata.index') }}" class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') }} ">Pemandu Wisata</a>
+                <a href="{{ route('pemandu-wisata.index') }}" 
+                   class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">
+                   Pemandu Wisata
+                </a>
             </div>
         </div>
     </nav>

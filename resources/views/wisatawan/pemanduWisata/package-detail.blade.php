@@ -5,7 +5,7 @@
 @section('content')
 <div class="bg-white min-vh-100">
     {{-- HEADER --}}
-    <header>
+    <header class="header-gradient shadow-sm"> 
         <div class="container py-2 d-flex align-items-center justify-content-between">
             
             <a href="{{ route('beranda.wisatawan') }}" class="d-flex align-items-center text-decoration-none" style="min-width: 150px;">
@@ -60,18 +60,22 @@
                 @endauth
             </div>
         </div>
+        <img src="{{ asset('images/siger-pattern.png') }}" alt="Siger Pattern" class="siger-pattern-header" loading="lazy">
     </header>
 
     {{-- NAV --}}
-    <nav class="nav-custom border-top bg-white">
+    <nav class="nav-custom border-top bg-white shadow-sm">
         <div class="container py-0">
             <div class="d-flex gap-4 justify-content-left">
                 <a href="{{ route('beranda.wisatawan') }}"
-                class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
+                   class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
                     Beranda
                 </a>
                 <a href="#" class="nav-link-custom">Pasar Digital</a>
-                <a href="{{ route('pemandu-wisata.index') }}" class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*')}} ">Pemandu Wisata</a>
+                <a href="{{ route('pemandu-wisata.index') }}" 
+                   class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">
+                   Pemandu Wisata
+                </a>
             </div>
         </div>
     </nav>
@@ -203,11 +207,11 @@
                                         $nomorWhatsapp = '62' . substr($nomorWhatsapp, 1);
                                     }
                                 }
-                                
-                                $waLink = $nomorWhatsapp ? 'https://api.whatsapp.com/send?phone=' . $nomorWhatsapp : '#';
+                                $pesan = urlencode("Halo, saya tertarik untuk memesan paket tur " . $tourPackage->name . " dari SigerTrip.");
+                                $waLink = $nomorWhatsapp ? 'https://api.whatsapp.com/send?phone=' . $nomorWhatsapp . '&text=' . $pesan : '#';
                             @endphp
                             
-                            <a href="{{ $waLink }}" target="_blank" class="btn btn-lg fw-semibold text-dark" style="background-color: #FFD15C;">
+                            <a href="{{ $waLink }}" target="_blank" class="btn btn-lg btn-success w-100 fw-bold d-flex align-items-center justify-content-center btn-pesibar-grad">
                                 <i class="fab fa-whatsapp me-2"></i> Hubungi Kami
                             </a>
                         </div>
