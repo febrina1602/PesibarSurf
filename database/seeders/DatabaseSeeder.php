@@ -20,8 +20,8 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $this->call([
-            DestinationCategorySeeder::class, 
-            DestinationSeeder::class,  
+            // DestinationCategorySeeder::class, 
+            // DestinationSeeder::class,  
             MarketplaceSeeder::class,
             OlehOlehSeeder::class,
             PenginapanSeeder::class,

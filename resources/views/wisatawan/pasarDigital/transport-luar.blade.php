@@ -89,7 +89,7 @@
                         @forelse ($travelAgents as $agent)
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card h-100 shadow-sm border-0" style="border-radius:16px;">
-                                    <img src="{{ asset($agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
+                                    <img src="{{ asset('storage/' .$agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
                                     <div class="card-body">
                                         <small class="text-muted d-block mb-1">
                                             Terverifikasi <i class="fa-solid fa-circle-check text-success ms-1"></i>
@@ -104,7 +104,7 @@
                                             data-bs-target="#modalDetailAgenLuar"
                                             data-type="travel"
                                             data-name="{{ $agent->name }}"
-                                            data-image="{{ asset($agent->image) }}"
+                                            data-image="{{ asset('storage/' .$agent->image) }}"
                                             data-location="{{ $agent->location }}"
                                             data-rating="{{ $agent->rating ?? '-' }}"
                                             data-price="{{ $agent->price_range ?? '-' }}"
@@ -143,7 +143,7 @@
                         @forelse ($busAgents as $agent)
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card h-100 shadow-sm border-0" style="border-radius:16px;">
-                                    <img src="{{ asset($agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
+                                    <img src="{{ asset('storage/' .$agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
                                     <div class="card-body">
                                         <small class="text-muted d-block mb-1">
                                             Terverifikasi <i class="fa-solid fa-circle-check text-success ms-1"></i>
@@ -158,7 +158,7 @@
                                             data-bs-target="#modalDetailAgenLuar"
                                             data-type="bus"
                                             data-name="{{ $agent->name }}"
-                                            data-image="{{ asset($agent->image) }}"
+                                            data-image="{{ asset('storage/' .$agent->image) }}"
                                             data-location="{{ $agent->location }}"
                                             data-rating="{{ $agent->rating ?? '-' }}"
                                             data-price="{{ $agent->price_range ?? '-' }}"
@@ -200,7 +200,7 @@
                     <h5 id="tlDetailName" class="fw-semibold mb-2">Nama Agen</h5>
                     <div class="d-flex align-items-center justify-content-between mb-3">
                         <div class="d-flex align-items-center gap-3 small text-muted">
-                            <span class="badge bg-info text-dark" id="tlDetailTypeLabel">Tipe</span>
+                            <span class="badge bg-warning text-dark" id="tlDetailTypeLabel">Tipe</span>
                             <span>
                                 <i class="fa-solid fa-location-dot me-1"></i>
                                 <span id="tlDetailLocation">Lokasi</span>

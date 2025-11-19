@@ -37,12 +37,12 @@ class DestinationCategoryController extends Controller
     {
         $data = $request->validate([
             'name' => 'required|string|max:255|unique:destination_categories',
-            'image_url' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'icon_url' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        if ($request->hasFile('image_url')) {
-            $path = $request->file('image_url')->store('categories', 'public');
-            $data['image_url'] = $path;
+        if ($request->hasFile('icon_url')) {
+            $path = $request->file('icon_url')->store('categories', 'public');
+            $data['icon_url'] = $path;
         }
 
         DestinationCategory::create($data);
@@ -68,15 +68,15 @@ class DestinationCategoryController extends Controller
                 'required', 'string', 'max:255',
                 Rule::unique('destination_categories')->ignore($category->id),
             ],
-            'image_url' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
+            'icon_url' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
-        if ($request->hasFile('image_url')) {
-            if ($category->image_url) {
-                Storage::disk('public')->delete($category->image_url);
+        if ($request->hasFile('icon_url')) {
+            if ($category->icon_url) {
+                Storage::disk('public')->delete($category->icon_url);
             }
-            $path = $request->file('image_url')->store('categories', 'public');
-            $data['image_url'] = $path;
+            $path = $request->file('icon_url')->store('categories', 'public');
+            $data['icon_url'] = $path;
         }
 
         $category->update($data);
@@ -95,8 +95,8 @@ class DestinationCategoryController extends Controller
                 return back()->with('error', 'Kategori "'. $category->name .'" tidak dapat dihapus karena masih digunakan oleh destinasi.');
             }
 
-            if ($category->image_url) {
-                Storage::disk('public')->delete($category->image_url);
+            if ($category->icon_url) {
+                Storage::disk('public')->delete($category->icon_url);
             }
             
             $category->delete();

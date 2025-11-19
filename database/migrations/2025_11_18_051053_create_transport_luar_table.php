@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('transport_luar', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agent_id')->nullable()->after('id')->constrained('agents')->onDelete('cascade');
             $table->string('type');                // travel, bus
             $table->string('name');                // Nama agen
             $table->string('image');               // Path gambar

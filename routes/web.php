@@ -13,8 +13,7 @@ use App\Http\Controllers\PemanduWisataController;
 use App\Http\Controllers\Agent\AgentPackageController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentDashboardController;
-
-
+use App\Http\Controllers\Agent\AgentBusinessController; 
 
 // ==== AUTHENTICATION ROUTES ====
 Route::middleware('guest')->group(function () {
@@ -28,25 +27,17 @@ Route::middleware('auth')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 });
 
-// // ==== HALAMAN UTAMA ====
+// ==== HALAMAN UTAMA ====
 Route::get('/', function () {
     return view('welcome');
 })->name('welcome'); 
 
 Route::get('/tentang', function () {
-    return view('tentang'); // Pastikan Anda punya file resources/views/tentang.blade.php
+    return view('tentang'); 
 })->name('tentang');
-
-// HAPUS ATAU BERI KOMENTAR RUTE INI
-/*
-Route::get('/beranda', function () {
-    return view('wisatawan.beranda'); 
-});
-*/
 
 
 // ==== BERANDA & DESTINASI & PEMANDU WISATA (ROUTE WISATAWAN) ====
-// BIARKAN RUTE INI
 Route::get('/beranda', [BerandaController::class, 'wisatawan'])->name('beranda.wisatawan');
 
 Route::get('/category/{id}', [DestinationController::class, 'byCategory'])
@@ -65,9 +56,7 @@ Route::get('/pemandu-wisata/{agent}/paket/{tourPackage}', [PemanduWisataControll
 | USER (WISATAWAN) PROFILE ROUTES
 |--------------------------------------------------------------------------
 */
-// Rute ini hanya bisa diakses oleh user yang login dengan role 'user'
 Route::middleware(['auth', 'role.user'])->prefix('profile')->name('profile.')->group(function () {
-    
     Route::get('/', [ProfileController::class, 'show'])->name('show');
     Route::put('/', [ProfileController::class, 'update'])->name('update');
     Route::get('/password', [ProfileController::class, 'showPasswordForm'])->name('password.show');
@@ -81,10 +70,10 @@ Route::middleware(['auth', 'role.user'])->prefix('profile')->name('profile.')->g
 */
 Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->group(function () {
 
-    // --- PROFIL AGEN ---
-    // (Penting: Redirect jika agen belum punya profil)
+    // --- DASHBOARD ---
     Route::get('/dashboard', [AgentDashboardController::class, 'index'])->name('dashboard');
 
+    // --- PROFIL AGEN ---
     // Mendaftarkan/Membuat Profil Agen (setelah registrasi user)
     Route::get('/profile/create', [AgentProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [AgentProfileController::class, 'store'])->name('profile.store');
@@ -93,8 +82,7 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
     Route::get('/profile', [AgentProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [AgentProfileController::class, 'update'])->name('profile.update');
 
-    // --- PAKET TOUR ---
-    // Mengelola Paket (CRUD)
+    // --- PAKET TOUR (Khusus Agent Tour) ---
     Route::get('/packages', [AgentPackageController::class, 'index'])->name('packages.index');
     Route::get('/packages/create', [AgentPackageController::class, 'create'])->name('packages.create');
     Route::post('/packages', [AgentPackageController::class, 'store'])->name('packages.store');
@@ -102,8 +90,15 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
     Route::put('/packages/{tourPackage}', [AgentPackageController::class, 'update'])->name('packages.update');
     Route::delete('/packages/{tourPackage}', [AgentPackageController::class, 'destroy'])->name('packages.destroy');
     
-    // Rute untuk mengelola rental (jika ada)
-    // Route::resource('/vehicles', AgentVehicleController::class);
+    // --- KELOLA USAHA (PASAR DIGITAL) --- 
+    Route::prefix('business')->name('business.')->group(function () {
+        Route::get('/', [AgentBusinessController::class, 'index'])->name('index'); // List Data
+        Route::get('/create', [AgentBusinessController::class, 'create'])->name('create'); // Form Tambah
+        Route::post('/', [AgentBusinessController::class, 'store'])->name('store'); // Simpan Baru
+        Route::get('/{id}/edit', [AgentBusinessController::class, 'edit'])->name('edit'); // Form Edit
+        Route::post('/{id}', [AgentBusinessController::class, 'update'])->name('update'); // Simpan Edit
+        Route::delete('/{id}', [AgentBusinessController::class, 'destroy'])->name('destroy'); // Hapus
+    });
 
 });
 
@@ -116,7 +111,6 @@ Route::post('/register/agent', [AuthController::class, 'registerAgent'])->name('
 | ADMIN DASHBOARD ROUTES
 |--------------------------------------------------------------------------
 */
-// Rute ini hanya bisa diakses oleh user yang login dengan role 'admin'
 Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->group(function () {
     
     Route::get('/dashboard', [\App\Http\Controllers\Admin\AdminDashboardController::class, 'index'])->name('dashboard');
@@ -130,24 +124,18 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
 
 });
 
-// ==== MARKETPLACE ROUTES ====
-Route::prefix('marketplace')->group(callback: function () {
+// ==== MARKETPLACE ROUTES (PUBLIC) ====
+Route::prefix('marketplace')->group(function () {
     // Halaman utama Pasar Digital
-    Route::get(uri: '/', action: [MarketplaceController::class, 'index'])
-        ->name(name: 'marketplace.index');
+    Route::get('/', [MarketplaceController::class, 'index'])->name('marketplace.index');
 
     // Halaman Transportasi Daerah (menu dalam)
-    Route::get(uri: '/transportasi/daerah', action: [TransportController::class, 'daerah'])
-        ->name(name: 'transport.daerah');
-
-    Route::get(uri: '/transportasi/luar', action: [TransportController::class, 'luar'])
-        ->name(name: 'transport.luar');
+    Route::get('/transportasi/daerah', [TransportController::class, 'daerah'])->name('transport.daerah');
+    Route::get('/transportasi/luar', [TransportController::class, 'luar'])->name('transport.luar');
 
     // Penginapan
-    Route::get(uri: '/penginapan', action: [PenginapanController::class, 'index'])
-        ->name(name: 'penginapan.index');
+    Route::get('/penginapan', [PenginapanController::class, 'index'])->name('penginapan.index');
 
     // Oleh-oleh
-    Route::get(uri: '/oleh-oleh', action: [OlehOlehController::class, 'index'])
-        ->name(name: 'oleh.index');
+    Route::get('/oleh-oleh', [OlehOlehController::class, 'index'])->name('oleh.index');
 });

@@ -43,7 +43,7 @@
                         @forelse ($categories as $category)
                             <tr>
                                 <td>
-                                    <img src="{{ asset('storage/' . $category->image_url) }}" 
+                                    <img src="{{ asset('storage/' . $category->icon_url) }}" 
                                          alt="{{ $category->name }}" 
                                          style="width: 100%; height: 50px; object-fit: cover; border-radius: 4px;"
                                          onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">

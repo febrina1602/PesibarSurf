@@ -42,7 +42,7 @@
                                       : route('profile.show');
                     @endphp
                     <a href="{{ $profileRoute }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
-                        <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
+                        <img src="{{ auth()->user()->profile_picture_url ? asset('storage/' . str_replace('public/', '', auth()->user()->profile_picture_url)) : 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                              alt="Foto Profil" 
                              style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
                         <span class="small fw-medium">
@@ -71,7 +71,10 @@
                    class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
                     Beranda
                 </a>
-                <a href="#" class="nav-link-custom">Pasar Digital</a>
+                <a href="{{ route('marketplace.index') }}" 
+                   class="nav-link-custom {{ request()->routeIs('marketplace.*') ? 'active' : '' }}">
+                   Pasar Digital
+                </a>
                 <a href="{{ route('pemandu-wisata.index') }}" 
                    class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">
                    Pemandu Wisata
@@ -103,7 +106,9 @@
                 <p class="text-muted">Pilih paket perjalanan yang sesuai dengan kebutuhan Anda</p>
             </div>
             
-            @if($tourPackages->isNotEmpty())
+            {{-- PERBAIKAN: Tambahkan pengecekan $tourPackages tidak null --}}
+            @if(isset($tourPackages) && $tourPackages && $tourPackages->isNotEmpty())
+            
             <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
                 @foreach($tourPackages as $package)
                 <div class="col">
@@ -117,7 +122,7 @@
                             <div class="position-absolute bottom-0 end-0 bg-dark p-2" style="border-top-left-radius: 0.5rem; opacity: 0.85;">
                                 <p class="small mb-0 text-white opacity-75" style="font-size: 0.7rem; line-height: 1.2;">STARTING FROM IDR</p>
                                 <p class="h5 fw-bold mb-0 text-white" style="line-height: 1.2;">{{ number_format($package->price_per_person, 0, ',', '.') }}</p>
-                                <p class="small mb-0 text-white opacity-75" style="font-size: 0.7rem; line-height: 1.2;">PER PAX</p>
+                                <p class="small mb-0 text-white opacity-75" style="font-size: 0.7rem; line-height: 1.2;">PER PERSON</p>
                             </div>
                             @endif
                         </div>
@@ -147,11 +152,14 @@
                 </div>
                 @endforeach
             </div>
+            
             @else
+            
             <div class="text-center text-muted py-5 bg-white rounded shadow-sm d-flex flex-column justify-content-center" style="min-height: 40vh;">
                 <p class="fs-5 mb-2">Belum ada paket perjalanan tersedia</p>
                 <p class="small">Paket perjalanan akan muncul di sini setelah ditambahkan oleh agen</p>
             </div>
+            
             @endif
         </div>
     </div>

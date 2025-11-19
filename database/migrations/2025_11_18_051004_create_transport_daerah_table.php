@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('transport_daerah', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agent_id')->nullable()->after('id')->constrained('agents')->onDelete('cascade');
             $table->string('type');                // mobil, motor, penyeberangan
             $table->string('name');                // Nama agen
             $table->string('image');               // Path gambar, misal: images/transport/mobil-a.png

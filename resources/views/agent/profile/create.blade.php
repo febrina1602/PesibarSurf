@@ -46,13 +46,23 @@
                         @csrf
                         
                         <div class="mb-3">
-                            <label for="agent_type" class="form-label">Jenis Agensi Anda</label>
+                            <label for="agent_type" class="form-label">Jenis Agensi / Usaha Anda</label>
                             <select class="form-select form-control" id="agent_type" name="agent_type" required>
                                 <option value="" selected disabled>-- Pilih Jenis Agensi --</option>
-                                <option value="TOUR" {{ old('agent_type') == 'TOUR' ? 'selected' : '' }}>Agen Tour (Paket Wisata)</option>
-                                <option value="RENTAL" {{ old('agent_type') == 'RENTAL' ? 'selected' : '' }}>Rental (Mobil / Motor)</option>
-                                <option value="BOTH" {{ old('agent_type') == 'BOTH' ? 'selected' : '' }}>Keduanya (Tour & Rental)</option>
+                                <optgroup label="Pemandu Wisata">
+                                    <option value="TOUR" {{ old('agent_type') == 'TOUR' ? 'selected' : '' }}>Pemandu Wisata (Tour Guide)</option>
+                                </optgroup>
+                                <optgroup label="Pasar Digital">
+                                    <option value="PENGINAPAN" {{ old('agent_type') == 'PENGINAPAN' ? 'selected' : '' }}>Penginapan (Hotel/Homestay)</option>
+                                    <option value="OLEH_OLEH" {{ old('agent_type') == 'OLEH_OLEH' ? 'selected' : '' }}>Toko Oleh-Oleh</option>
+                                    <option value="RENTAL" {{ old('agent_type') == 'RENTAL' ? 'selected' : '' }}>Rental Kendaraan (Daerah)</option>
+                                    <option value="TRAVEL" {{ old('agent_type') == 'TRAVEL' ? 'selected' : '' }}>Agen Travel (Antar Kota)</option>
+                                </optgroup>
+                                <optgroup label="Lainnya">
+                                    <option value="BOTH" {{ old('agent_type') == 'BOTH' ? 'selected' : '' }}>Kombinasi (Tour & Rental)</option>
+                                </optgroup>
                             </select>
+                            <div class="form-text small">Pilih jenis utama usaha Anda. Ini menentukan fitur yang akan muncul.</div>
                         </div>
 
                         <div class="mb-3">

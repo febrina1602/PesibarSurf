@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('oleh_oleh', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agent_id')->nullable()->after('id')->constrained('agents')->onDelete('cascade');
             $table->string('name');               // Nama toko / produk utama
             $table->string('image');              // path gambar
             $table->string('location');           // Lokasi, misal: Krui, Pesisir Barat

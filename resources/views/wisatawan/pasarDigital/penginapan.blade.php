@@ -44,7 +44,7 @@
             <div class="card marketplace-card mb-3" style="border-radius: 16px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); border: 0;">
                 <div class="card-body d-flex align-items-center">
 
-                    <img src="{{ asset($item->image) }}"
+                    <img src="{{ asset('storage/' .$item->image) }}"
                          class="me-3"
                          alt="{{ $item->name }}"
                          style="width:90px; height:90px; object-fit:cover; border-radius:16px;">
@@ -74,7 +74,7 @@
                             data-bs-toggle="modal"
                             data-bs-target="#modalDetailPenginapan"
                             data-name="{{ $item->name }}"
-                            data-image="{{ asset($item->image) }}"
+                            data-image="{{ asset('storage/' .$item->image) }}"
                             data-location="{{ $item->location }}"
                             data-rating="{{ $item->rating ?? '-' }}"
                             data-price="{{ $item->price_start ?? '-' }}"

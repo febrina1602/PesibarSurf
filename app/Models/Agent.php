@@ -45,4 +45,26 @@ class Agent extends Model
     {
         return $this->hasMany(TourPackage::class);
     }
+
+    // TAMBAHAN RELASI BARU (PASAR DIGITAL)
+    public function penginapan()
+    {
+        return $this->hasOne(Penginapan::class);
+    }
+
+    public function olehOleh()
+    {
+        return $this->hasOne(OlehOleh::class);
+    }
+
+    public function transportDaerah()
+    {
+        return $this->hasOne(TransportDaerah::class);
+    }
+
+    public function transportLuar()
+    {
+        return $this->hasOne(TransportLuar::class);
+    }
 }
+

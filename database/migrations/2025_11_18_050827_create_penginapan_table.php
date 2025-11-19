@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('penginapan', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agent_id')->nullable()->after('id')->constrained('agents')->onDelete('cascade');
             $table->string('name');               // Nama penginapan
             $table->string('image');              // path gambar
             $table->string('location');           // Lokasi, misal: Krui, Pesisir Barat

@@ -40,7 +40,7 @@
                                       ? route('agent.dashboard') 
                                       : route('profile.show');
                     @endphp
-                    <a href="{{ $profileRoute }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
+                    <a href="{{ route('agent.profile.edit') }}" class="text-dark text-decoration-none d-flex flex-column align-items-center me-3">
                         <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                              alt="Foto Profil" 
                              style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #eee;">
@@ -65,7 +65,7 @@
     {{-- NAV KHUSUS AGEN --}}
     <nav class="nav-custom border-top bg-white shadow-sm">
         <div class="container py-0">
-            <div class="d-flex gap-4 justify-content-left">
+            <div class="d-flex gap-4 justify-content-left overflow-auto">
                 <a href="{{ route('agent.dashboard') }}"
                    class="nav-link-custom {{ request()->routeIs('agent.dashboard') ? 'active' : '' }}">
                     Dashboard
@@ -81,19 +81,29 @@
                        Profil Agensi
                     </a>
                     
-                    <a href="{{ $agent->is_verified ? route('agent.packages.index') : '#' }}" 
-                       class="nav-link-custom {{ request()->routeIs('agent.packages.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
-                       @if(!$agent->is_verified)
-                           style="pointer-events: none; opacity: 0.6;" 
-                           title="Harus terverifikasi"
-                       @endif
-                       >
-                       Kelola Paket
-                    </a>
+                    {{-- LOGIKA MENU 1: KELOLA PAKET (Hanya untuk TOUR & BOTH) --}}
+                    @if(in_array($agent->agent_type, ['TOUR', 'BOTH']))
+                        <a href="{{ $agent->is_verified ? route('agent.packages.index') : '#' }}" 
+                           class="nav-link-custom {{ request()->routeIs('agent.packages.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
+                           @if(!$agent->is_verified) style="pointer-events: none; opacity: 0.6;" title="Harus terverifikasi" @endif>
+                           Kelola Paket Tour
+                        </a>
+                    @endif
+
+                    {{-- LOGIKA MENU 2: KELOLA USAHA (Hanya untuk NON-TOUR & BOTH) --}}
+                    {{-- Jika tipe BUKAN 'TOUR', maka tampilkan menu ini --}}
+                    @if($agent->agent_type !== 'TOUR') 
+                        <a href="{{ $agent->is_verified ? route('agent.business.index') : '#' }}" 
+                           class="nav-link-custom {{ request()->routeIs('agent.business.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
+                           @if(!$agent->is_verified) style="pointer-events: none; opacity: 0.6;" @endif>
+                           Kelola Toko/Usaha
+                        </a>
+                    @endif
+
                 @else
                      <a href="{{ route('agent.profile.create') }}" 
-                       class="nav-link-custom {{ request()->routeIs('agent.profile.*') ? 'active' : '' }}">
-                       Buat Profil Agensi
+                        class="nav-link-custom {{ request()->routeIs('agent.profile.*') ? 'active' : '' }}">
+                        Buat Profil Agensi
                     </a>
                 @endif
             </div>

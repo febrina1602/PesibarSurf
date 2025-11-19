@@ -24,11 +24,11 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="image_url" class="form-label">Ikon Kategori <span class="text-danger">*</span></label>
-                    <input type="file" class="form-control @error('image_url') is-invalid @enderror" 
-                           id="image_url" name="image_url" accept="image/jpeg,png,jpg,webp" required>
+                    <label for="icon_url" class="form-label">Ikon Kategori <span class="text-danger">*</span></label>
+                    <input type="file" class="form-control @error('icon_url') is-invalid @enderror" 
+                           id="icon_url" name="icon_url" accept="image/jpeg,png,jpg,webp" required>
                     <div class="form-text">Wajib. (JPG, PNG, WEBP maks 2MB)</div>
-                    @error('image_url')
+                    @error('icon_url')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>

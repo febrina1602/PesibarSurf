@@ -8,77 +8,45 @@ use Illuminate\Http\Request;
 
 class PemanduWisataController extends Controller
 {
-    /**
-     * Menampilkan semua agen yang terverifikasi
-     */
-    public function index(Request $request)
+    public function index()
     {
-        $keyword = $request->get('q');
-        
-        $query = Agent::where('is_verified', true);
-        
-        if ($keyword) {
-            $query->where(function($q) use ($keyword) {
-                $q->where('name', 'like', '%' . $keyword . '%')
-                  ->orWhere('address', 'like', '%' . $keyword . '%');
-            });
-        }
-        
-        $agents = $query->orderBy('created_at', 'desc')->get();
-        
-        return view('wisatawan.pemanduWisata.index', compact('agents', 'keyword'));
+        $agents = Agent::whereIn('agent_type', ['TOUR', 'BOTH'])
+                       ->where('is_verified', true)
+                       ->orderBy('created_at', 'desc')
+                       ->get();
+
+        return view('wisatawan.pemanduWisata.index', compact('agents'));
     }
 
-    /**
-     * Menampilkan detail satu agen
-     */
     public function show(Agent $agent)
     {
-        if (!$agent->is_verified) {
-            abort(404, 'Agen tour tidak ditemukan.');
+        if (!in_array($agent->agent_type, ['TOUR', 'BOTH'])) {
+             return redirect()->route('pemandu-wisata.index')->with('error', 'Agen tidak ditemukan atau bukan agen tour.');
         }
 
-        $agent->load('user'); 
-
-        $tourPackages = $agent->tourPackages()
-            ->orderBy('created_at', 'desc')
-            ->get();
+        // PERBAIKAN: Ubah 'packages' menjadi 'tourPackages' sesuai nama fungsi di Model Agent
+        $tourPackages = $agent->tourPackages; 
 
         return view('wisatawan.pemanduWisata.detailAgen', compact('agent', 'tourPackages'));
     }
 
-    /**
-     * Menampilkan semua paket dari satu agen
-     */
     public function packages(Agent $agent)
     {
-        if (!$agent->is_verified) {
-            abort(404, 'Agen tour tidak ditemukan.');
+        if (!in_array($agent->agent_type, ['TOUR', 'BOTH'])) {
+             return redirect()->route('pemandu-wisata.index');
         }
-        
-        $tourPackages = $agent->tourPackages()
-            ->orderBy('created_at', 'desc')
-            ->get();
 
+        // PERBAIKAN: Ubah 'packages' menjadi 'tourPackages'
+        $tourPackages = $agent->tourPackages;
+        
         return view('wisatawan.pemanduWisata.packages', compact('agent', 'tourPackages'));
     }
 
-    /**
-     * Menampilkan detail satu paket perjalanan
-     */
     public function packageDetail(Agent $agent, TourPackage $tourPackage)
     {
-        if ($tourPackage->agent_id !== $agent->id) {
-            abort(404, 'Paket perjalanan tidak ditemukan.');
+        if (!in_array($agent->agent_type, ['TOUR', 'BOTH'])) {
+             return redirect()->route('pemandu-wisata.index');
         }
-
-        if (!$agent->is_verified) {
-            abort(404, 'Agen tour tidak ditemukan.');
-        }
-
-        // TAMBAHKAN INI: Memuat relasi 'user' dari si agen
-        $agent->load('user');
-
         return view('wisatawan.pemanduWisata.package-detail', compact('agent', 'tourPackage'));
     }
 }

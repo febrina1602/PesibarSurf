@@ -105,7 +105,7 @@
 
         <div class="container py-4 py-md-5"> {{-- Tambahkan sedikit padding atas --}}
             
-            <h4 class="fw-bold mb-4 text-center">Pasar Digital Pesibar</h4>
+            <h4 class="fw-bold mb-4 text-center">Pasar Digital</h4>
 
             {{-- LOOP KATEGORI DARI DATABASE --}}
             @foreach ($categories as $category)

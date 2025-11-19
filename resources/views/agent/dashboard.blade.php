@@ -1,20 +1,12 @@
-@extends('layouts.agent') {{-- MEWARISI LAYOUT BARU --}}
+@extends('layouts.agent') 
 
 @section('title', 'Dashboard Agen - PesibarSurf')
 
 @push('styles')
 <style>
-    /* Style untuk card yang non-aktif */
     .card-disabled {
         background-color: #f8f9fa; border-style: dashed; opacity: 0.7;
     }
-    .card-disabled .btn {
-        pointer-events: none; background-color: #6c757d; border-color: #6c757d; opacity: 0.5;
-    }
-    .card-disabled .card-text, .card-disabled .card-title {
-        color: #6c757d !important;
-    }
-    /* Style untuk tombol gradien */
     .btn-pesibar-grad {
         background: linear-gradient(to right, #FFE75D, #D19878);
         border: none; color: #333; font-weight: 600;
@@ -25,7 +17,7 @@
 </style>
 @endpush
 
-@section('agent_content') {{-- NAMA SECTION BARU --}}
+@section('agent_content')
 <div class="container py-5">
 
     @if(session('success'))
@@ -35,7 +27,6 @@
         </div>
     @endif
 
-    {{-- $agent otomatis ada dari layout --}}
     @if ($agent) 
         
         <div class="row g-4">
@@ -45,7 +36,7 @@
                 <div class="card shadow-sm border-0 position-sticky" style="top: 2rem;">
                     <div class="card-body p-4">
                         <div class="text-center mb-3">
-                            <img src="{{ $agent->user->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode($agent->user->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
+                            <img src="{{ $agent->user->profile_picture_url ? asset('storage/' . str_replace('public/', '', $agent->user->profile_picture_url)) : 'https://ui-avatars.com/api/?name=' . urlencode($agent->user->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                                  alt="Profil" class="mb-2"
                                  style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #eee;">
                             <h5 class="fw-bold mt-2 mb-1">{{ $agent->name }}</h5>
@@ -73,7 +64,7 @@
                             </li>
                             <li class="mb-2 d-flex">
                                 <i class="fas fa-info-circle fa-fw me-2 mt-1 text-danger"></i>
-                                <span>Agen {{ $agent->agent_type }}</span>
+                                <span>Agen {{ str_replace('_', ' ', $agent->agent_type) }}</span>
                             </li>
                         </ul>
                         <div class="d-grid mt-3">
@@ -85,61 +76,88 @@
                 </div>
             </div>
             
-            {{-- KOLOM KANAN: DAFTAR PAKET --}}
+            {{-- KOLOM KANAN: KONTEN DASHBOARD (DINAMIS) --}}
             <div class="col-lg-8">
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h2 class="h4 fw-bold mb-0">Daftar Paket Tour</h2>
-                </div>
 
                 @if (!$agent->is_verified)
-                    <div class="alert alert-warning">
+                    <div class="alert alert-warning mb-4">
                         <i class="fas fa-exclamation-triangle me-2"></i>
-                        Profil Anda sedang ditinjau. Anda baru bisa **menambah paket** setelah profil disetujui.
+                        Profil Anda sedang ditinjau. Fitur kelola usaha/paket akan aktif setelah disetujui Admin.
                     </div>
                 @endif
 
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-0">
-                        <ul class="list-group list-group-flush">
-                            @forelse ($tourPackages as $package)
-                                <li class="list-group-item p-3 d-flex justify-content-between align-items-center">
-                                    <div class="d-flex align-items-center">
-                                        <img src="{{ $package->cover_image_url ?? 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&q=80' }}" 
-                                             alt="{{ $package->name }}" 
-                                             style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;" 
-                                             class="me-3">
-                                        <div>
-                                            <h6 class="fw-bold mb-0">{{ $package->name }}</h6>
-                                            <small class="text-muted">
-                                                {{ $package->duration ?? 'Durasi tidak diatur' }} | Rp {{ number_format($package->price_per_person, 0, ',', '.') }}
-                                            </small>
-                                        </div>
-                                    </div>
-                                </li>
-                            @empty
-                                <li class="list-group-item p-5 text-center">
-                                    <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-                                    <h5 class="text-muted">Anda Belum Memiliki Paket</h5>
-                                    @if($agent->is_verified)
-                                        <p class="small text-muted">Klik "Tambah Paket Baru" untuk mulai menjual.</p>
-                                    @else
-                                        <p class="small text-muted">Anda dapat menambahkan paket setelah profil Anda diverifikasi.</p>
-                                    @endif
-                                </li>
-                            @endforelse
-                        </ul>
+                {{-- 1. JIKA TIPE TOUR / BOTH -> Tampilkan Daftar Paket --}}
+                @if(in_array($agent->agent_type, ['TOUR', 'BOTH']))
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h4 fw-bold mb-0">Daftar Paket Tour</h2>
+                        @if($agent->is_verified)
+                            <a href="{{ route('agent.packages.create') }}" class="btn btn-sm btn-primary rounded-pill px-3">
+                                <i class="fas fa-plus me-1"></i> Tambah Paket
+                            </a>
+                        @endif
                     </div>
-                </div>
-                
-                @if(in_array($agent->agent_type, ['RENTAL', 'BOTH']))
-                    {{-- ... (Konten Rental Anda) ... --}}
+
+                    <div class="card shadow-sm border-0 mb-4">
+                        <div class="card-body p-0">
+                            <ul class="list-group list-group-flush">
+                                @forelse ($tourPackages as $package)
+                                    <li class="list-group-item p-3 d-flex justify-content-between align-items-center">
+                                        <div class="d-flex align-items-center">
+                                            <img src="{{ $package->cover_image_url ? asset('storage/' . $package->cover_image_url) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&q=80' }}" 
+                                                 alt="{{ $package->name }}" 
+                                                 style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;" 
+                                                 class="me-3">
+                                            <div>
+                                                <h6 class="fw-bold mb-0">{{ $package->name }}</h6>
+                                                <small class="text-muted">
+                                                    {{ $package->duration ?? '-' }} | Rp {{ number_format($package->price_per_person, 0, ',', '.') }}
+                                                </small>
+                                            </div>
+                                        </div>
+                                        <a href="{{ route('agent.packages.edit', $package->id) }}" class="btn btn-sm btn-light border">Detail</a>
+                                    </li>
+                                @empty
+                                    <li class="list-group-item p-5 text-center">
+                                        <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
+                                        <h5 class="text-muted">Belum Ada Paket Wisata</h5>
+                                    </li>
+                                @endforelse
+                            </ul>
+                        </div>
+                    </div>
+                @endif
+
+                {{-- 2. JIKA TIPE PASAR DIGITAL / BOTH -> Tampilkan Ringkasan Usaha --}}
+                @if(in_array($agent->agent_type, ['PENGINAPAN', 'OLEH_OLEH', 'RENTAL', 'BOTH', 'TRAVEL', 'BUS']))
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <h2 class="h4 fw-bold mb-0">Status Usaha (Pasar Digital)</h2>
+                    </div>
+
+                    <div class="card shadow-sm border-0">
+                        <div class="card-body p-4 text-center">
+                            @if($agent->is_verified)
+                                <i class="fas fa-store fa-3x text-danger mb-3"></i>
+                                <h5 class="fw-bold">Kelola Toko & Produk Anda</h5>
+                                <p class="text-muted small mb-4">
+                                    Atur informasi Penginapan, Oleh-oleh, atau Rental agar tampil menarik di aplikasi Wisatawan.
+                                </p>
+                                <a href="{{ route('agent.business.index') }}" class="btn btn-outline-danger px-4 rounded-pill">
+                                    <i class="fas fa-cog me-2"></i> Kelola Usaha Sekarang
+                                </a>
+                            @else
+                                <i class="fas fa-lock fa-3x text-muted mb-3"></i>
+                                <h5 class="text-muted">Fitur Usaha Terkunci</h5>
+                                <p class="text-muted small">Menunggu verifikasi profil.</p>
+                            @endif
+                        </div>
+                    </div>
                 @endif
                 
             </div>
         </div>
 
     @else
-        {{-- Fallback jika $agent null (alur "Satu Langkah Lagi") --}}
+        {{-- TAMPILAN JIKA BELUM MEMBUAT PROFIL AGENSI --}}
         <div class="card shadow-sm border-0" style="background-color: #fff8e1;">
             <div class="card-body text-center p-4 p-md-5">
                 <i class="fas fa-exclamation-circle fa-4x text-warning mb-4"></i>

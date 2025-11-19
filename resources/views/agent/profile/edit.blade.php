@@ -67,7 +67,7 @@
                         <div class="mb-3">
                             <label class="form-label">Foto Profil Akun</label>
                             <div class="d-flex align-items-center">
-                                <img src="{{ auth()->user()->profile_picture_url ?? 'https://via.placeholder.com/100' }}" 
+                                <img src="{{ auth()->user()->profile_picture_url ?? 'https://ui-avatars.com/api/?name=' . urlencode(auth()->user()->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                                      alt="Foto Profil" id="profileImagePreview"
                                      class="profile-picture-preview me-3">
                                 <div class="flex-grow-1">
@@ -96,11 +96,27 @@
                         <div class="mb-3">
                             <label for="agent_type" class="form-label">Jenis Agensi Anda</label>
                             <select class="form-select form-control" id="agent_type" name="agent_type" required>
-                                <option value="TOUR" {{ old('agent_type', $agent->agent_type) == 'TOUR' ? 'selected' : '' }}>Agen Tour (Paket Wisata)</option>
-                                <option value="RENTAL" {{ old('agent_type', $agent->agent_type) == 'RENTAL' ? 'selected' : '' }}>Rental (Mobil / Motor)</option>
-                                <option value="BOTH" {{ old('agent_type', $agent->agent_type) == 'BOTH' ? 'selected' : '' }}>Keduanya (Tour & Rental)</option>
+                                <option value="" disabled>-- Pilih Jenis Agensi --</option>
+                                
+                                <optgroup label="Pemandu Wisata">
+                                    <option value="TOUR" {{ old('agent_type', $agent->agent_type) == 'TOUR' ? 'selected' : '' }}>Pemandu Wisata (Tour Guide)</option>
+                                </optgroup>
+                                
+                                <optgroup label="Pasar Digital">
+                                    <option value="PENGINAPAN" {{ old('agent_type', $agent->agent_type) == 'PENGINAPAN' ? 'selected' : '' }}>Penginapan (Hotel/Homestay)</option>
+                                    <option value="OLEH_OLEH" {{ old('agent_type', $agent->agent_type) == 'OLEH_OLEH' ? 'selected' : '' }}>Toko Oleh-Oleh</option>
+                                    <option value="RENTAL" {{ old('agent_type', $agent->agent_type) == 'RENTAL' ? 'selected' : '' }}>Rental Kendaraan (Daerah)</option>
+                                    <option value="TRAVEL" {{ old('agent_type', $agent->agent_type) == 'TRAVEL' ? 'selected' : '' }}>Agen Travel (Antar Kota)</option>
+                                     <option value="BUS" {{ old('agent_type', $agent->agent_type) == 'BUS' ? 'selected' : '' }}>Agen Bus (Antar Provinsi)</option>
+                                </optgroup>
+                                
+                                <optgroup label="Lainnya">
+                                     <option value="BOTH" {{ old('agent_type', $agent->agent_type) == 'BOTH' ? 'selected' : '' }}>Kombinasi (Tour & Rental)</option>
+                                </optgroup>
                             </select>
+                            <div class="form-text text-warning"><i class="fas fa-info-circle"></i> Mengubah jenis agensi akan mengubah menu yang tersedia di dashboard Anda.</div>
                         </div>
+
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama Agensi</label>
                             <input type="text" class="form-control" id="name" name="name" 
@@ -124,7 +140,7 @@
                             <input type="file" class="form-control" id="banner_image" name="banner_image" accept="image/jpeg,image/png,image/jpg">
                             @if($agent->banner_image_url)
                             <div class="mt-2">
-                                <a href="{{ $agent->banner_image_url }}" target="_blank">Lihat Banner Saat Ini</a>
+                                <a href="{{ asset('storage/' . $agent->banner_image_url) }}" target="_blank" class="small text-decoration-none"><i class="fas fa-image"></i> Lihat Banner Saat Ini</a>
                             </div>
                             @endif
                         </div>
@@ -133,7 +149,7 @@
                             <input type="file" class="form-control" id="file_ktp" name="file_ktp" accept="image/jpeg,image/png,image/jpg,application/pdf">
                             @if($agent->file_ktp_url)
                             <div class="mt-2">
-                                <a href="{{ $agent->file_ktp_url }}" target="_blank">Lihat KTP Saat Ini</a>
+                                <a href="{{ asset('storage/' . $agent->file_ktp_url) }}" target="_blank" class="small text-decoration-none"><i class="fas fa-file-alt"></i> Lihat KTP Saat Ini</a>
                             </div>
                             @endif
                         </div>
@@ -142,14 +158,14 @@
                             <input type="file" class="form-control" id="file_siup" name="file_siup" accept="image/jpeg,image/png,image/jpg,application/pdf">
                             @if($agent->file_siup_url)
                             <div class="mt-2">
-                                <a href="{{ $agent->file_siup_url }}" target="_blank">Lihat SIUP Saat Ini</a>
+                                <a href="{{ asset('storage/' . $agent->file_siup_url) }}" target="_blank" class="small text-decoration-none"><i class="fas fa-file-contract"></i> Lihat SIUP Saat Ini</a>
                             </div>
                             @endif
                         </div>
 
                         <div class="d-grid mt-4 pt-2">
                             <button type="submit" class="btn btn-pesibar-grad">
-                                <i class="fas fa-save me-2"></i> Update Profil
+                                <i class="fas fa-save me-2"></i> Simpan Perubahan
                             </button>
                         </div>
 

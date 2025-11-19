@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade')->unique();
             $table->string('name');
-            $table->enum('agent_type', ['TOUR', 'RENTAL', 'BOTH']); // (Tipe Agen)
+            $table->string('agent_type');
             $table->text('address')->nullable();
             $table->text('description')->nullable();
             $table->string('banner_image_url')->nullable(); 

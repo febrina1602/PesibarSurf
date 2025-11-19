@@ -89,7 +89,7 @@
                         @forelse ($mobilAgents as $agent)
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card h-100 shadow-sm border-0" style="border-radius:16px;">
-                                    <img src="{{ asset($agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
+                                    <img src="{{ asset('storage/' .$agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
                                     <div class="card-body">
                                         <small class="text-muted d-block mb-1">
                                             Terverifikasi <i class="fa-solid fa-circle-check text-success ms-1"></i>
@@ -104,7 +104,7 @@
                                             data-bs-target="#modalDetailAgenDaerah"
                                             data-type="mobil"
                                             data-name="{{ $agent->name }}"
-                                            data-image="{{ asset($agent->image) }}"
+                                            data-image="{{ asset('storage/' .$agent->image) }}"
                                             data-location="{{ $agent->location }}"
                                             data-rating="{{ $agent->rating ?? '-' }}"
                                             data-price="{{ $agent->price_range ?? '-' }}"
@@ -143,7 +143,7 @@
                         @forelse ($motorAgents as $agent)
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card h-100 shadow-sm border-0" style="border-radius:16px;">
-                                    <img src="{{ asset($agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
+                                    <img src="{{ asset('storage/' .$agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
                                     <div class="card-body">
                                         <small class="text-muted d-block mb-1">
                                             Terverifikasi <i class="fa-solid fa-circle-check text-success ms-1"></i>
@@ -158,7 +158,7 @@
                                             data-bs-target="#modalDetailAgenDaerah"
                                             data-type="motor"
                                             data-name="{{ $agent->name }}"
-                                            data-image="{{ asset($agent->image) }}"
+                                            data-image="{{ asset('storage/' .$agent->image) }}"
                                             data-location="{{ $agent->location }}"
                                             data-rating="{{ $agent->rating ?? '-' }}"
                                             data-price="{{ $agent->price_range ?? '-' }}"
@@ -197,7 +197,7 @@
                         @forelse ($penyeberanganAgents as $agent)
                             <div class="col-12 col-md-6 col-lg-4">
                                 <div class="card h-100 shadow-sm border-0" style="border-radius:16px;">
-                                    <img src="{{ asset($agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
+                                    <img src="{{ asset('storage/' .$agent->image) }}" class="card-img-top" style="border-radius:16px 16px 0 0; height:150px; object-fit:cover;" alt="{{ $agent->name }}">
                                     <div class="card-body">
                                         <small class="text-muted d-block mb-1">
                                             Terverifikasi <i class="fa-solid fa-circle-check text-success ms-1"></i>
@@ -212,7 +212,7 @@
                                             data-bs-target="#modalDetailAgenDaerah"
                                             data-type="penyeberangan"
                                             data-name="{{ $agent->name }}"
-                                            data-image="{{ asset($agent->image) }}"
+                                            data-image="{{ asset('storage/' .$agent->image) }}"
                                             data-location="{{ $agent->location }}"
                                             data-rating="{{ $agent->rating ?? '-' }}"
                                             data-price="{{ $agent->price_range ?? '-' }}"

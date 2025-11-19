@@ -199,9 +199,8 @@
                        style="width:140px;">
                         <div class="category-card destination-card">
                             <div class="destination-card-image">
-                                {{-- PERBAIKAN: Menggunakan 'image_url' dan asset('storage/...') --}}
-                                @if(!empty($category->image_url))
-                                    <img src="{{ asset('storage/' . $category->image_url) }}"
+                                @if(!empty($category->icon_url))
+                                    <img src="{{ asset('storage/' . $category->icon_url) }}"
                                          alt="{{ $category->name }}"
                                          loading="lazy"
                                          onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">
@@ -231,9 +230,8 @@
                            class="text-decoration-none">
                             <div class="category-card destination-card">
                                 <div class="destination-card-image">
-                                    {{-- PERBAIKAN: Menggunakan 'image_url' dan asset('storage/...') --}}
-                                    @if(!empty($category->image_url))
-                                        <img src="{{ asset('storage/' . $category->image_url) }}"
+                                    @if(!empty($category->icon_url))
+                                        <img src="{{ asset('storage/' . $category->icon_url) }}"
                                              alt="{{ $category->name }}"
                                              loading="lazy"
                                              onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">

@@ -25,17 +25,17 @@
                 </div>
 
                 <div class="mb-3">
-                    <label for="image_url" class="form-label">Ganti Ikon Kategori</label>
+                    <label for="icon_url" class="form-label">Ganti Ikon Kategori</label>
                     <div class="my-2">
-                        <img src="{{ asset('storage/' . $category->image_url) }}" 
+                        <img src="{{ asset('storage/' . $category->icon_url) }}" 
                              alt="{{ $category->name }}" 
                              style="width: 100px; height: auto; border-radius: 8px;"
                              onerror="this.onerror=null; this.src='{{ asset('images/logo.png') }}';">
                     </div>
-                    <input type="file" class="form-control @error('image_url') is-invalid @enderror" 
-                           id="image_url" name="image_url" accept="image/jpeg,png,jpg,webp">
+                    <input type="file" class="form-control @error('icon_url') is-invalid @enderror" 
+                           id="icon_url" name="icon_url" accept="image/jpeg,png,jpg,webp">
                     <div class="form-text">Opsional. Kosongkan jika tidak ingin mengubah ikon.</div>
-                    @error('image_url')
+                    @error('icon_url')
                         <div class="invalid-feedback">{{ $message }}</div>
                     @enderror
                 </div>
