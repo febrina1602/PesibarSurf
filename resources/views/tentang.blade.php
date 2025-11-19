@@ -255,7 +255,7 @@
                 </div>
                 <div class="col-6 col-md-3">
                     <div class="team-card">
-                        <img src="{{ asset('images/team/rosdiana.jpg') }}" alt="Foto Rosdiana Septrie Lestari" class="team-member-img">
+                        <img src="{{ asset('images/team/rosdiana.jpeg') }}" alt="Foto Rosdiana Septrie Lestari" class="team-member-img">
                         <h5>Rosdiana Septrie Lestari</h5>
                         <p>Anggota</p>
                     </div>
