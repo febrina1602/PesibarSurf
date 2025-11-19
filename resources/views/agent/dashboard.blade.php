@@ -36,9 +36,12 @@
                 <div class="card shadow-sm border-0 position-sticky" style="top: 2rem;">
                     <div class="card-body p-4">
                         <div class="text-center mb-3">
-                            <img src="{{ $agent->user->profile_picture_url ? asset('storage/' . str_replace('public/', '', $agent->user->profile_picture_url)) : 'https://ui-avatars.com/api/?name=' . urlencode($agent->user->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
+                            {{-- PERBAIKAN GAMBAR PROFIL --}}
+                            <img src="{{ $agent->user->profile_picture_url ? asset(str_replace('public/', '', $agent->user->profile_picture_url)) : 'https://ui-avatars.com/api/?name=' . urlencode($agent->user->full_name) . '&background=FFD15C&color=333&bold=true' }}" 
                                  alt="Profil" class="mb-2"
-                                 style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #eee;">
+                                 style="width: 80px; height: 80px; border-radius: 50%; object-fit: cover; border: 3px solid #eee;"
+                                 onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name={{ urlencode($agent->name) }}&background=FFD15C&color=333&bold=true';">
+                            
                             <h5 class="fw-bold mt-2 mb-1">{{ $agent->name }}</h5>
                             <p class="small text-muted mb-2">{{ $agent->user->email }}</p>
                             
@@ -103,10 +106,23 @@
                                 @forelse ($tourPackages as $package)
                                     <li class="list-group-item p-3 d-flex justify-content-between align-items-center">
                                         <div class="d-flex align-items-center">
-                                            <img src="{{ $package->cover_image_url ? asset('storage/' . $package->cover_image_url) : 'https://images.unsplash.com/photo-1507525428034-b723cf961d3e?w=100&q=80' }}" 
+                                            @php
+                                                $imgSrc = asset('images/logo.png'); 
+                                                if ($package->cover_image_url) {
+                                                    if (Str::startsWith($package->cover_image_url, 'http')) {
+                                                        $imgSrc = $package->cover_image_url;
+                                                    } else {
+                                                        $imgSrc =  $package->cover_image_url;
+                                                    }
+                                                }
+                                            @endphp
+                                            
+                                            <img src="{{ $imgSrc }}" 
                                                  alt="{{ $package->name }}" 
-                                                 style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px;" 
-                                                 class="me-3">
+                                                 style="width: 80px; height: 60px; object-fit: cover; border-radius: 8px; background-color: #f8f9fa;" 
+                                                 class="me-3"
+                                                 onerror="this.onerror=null;this.src='{{ asset('images/logo.png') }}';">
+                                                 
                                             <div>
                                                 <h6 class="fw-bold mb-0">{{ $package->name }}</h6>
                                                 <small class="text-muted">

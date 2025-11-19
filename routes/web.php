@@ -122,7 +122,32 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('destinations', \App\Http\Controllers\Admin\DestinationController::class);
     Route::resource('categories', \App\Http\Controllers\Admin\DestinationCategoryController::class);
 
+    Route::prefix('listings')->name('listings.')->group(function() {
+        // Halaman Utama (Tab View)
+        Route::get('/', [\App\Http\Controllers\Admin\AdminListingController::class, 'index'])->name('index');
+
+        // --- ROUTE EDIT & UPDATE ---
+        Route::get('tours/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTour'])->name('tours.edit');
+        Route::put('tours/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTour'])->name('tours.update');
+        Route::get('penginapan/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editPenginapan'])->name('penginapan.edit');
+        Route::put('penginapan/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updatePenginapan'])->name('penginapan.update');
+        Route::get('oleh-oleh/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editOlehOleh'])->name('oleh-oleh.edit');
+        Route::put('oleh-oleh/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateOlehOleh'])->name('oleh-oleh.update');
+        Route::get('transport-daerah/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTransportDaerah'])->name('transport-daerah.edit');
+        Route::put('transport-daerah/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTransportDaerah'])->name('transport-daerah.update');
+        Route::get('transport-luar/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTransportLuar'])->name('transport-luar.edit');
+        Route::put('transport-luar/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTransportLuar'])->name('transport-luar.update');
+
+        // Route Delete (Hapus Listing)
+        Route::delete('tours/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTour'])->name('tours.destroy');
+        Route::delete('penginapan/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyPenginapan'])->name('penginapan.destroy');
+        Route::delete('oleh-oleh/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyOlehOleh'])->name('oleh-oleh.destroy');
+        Route::delete('transport-daerah/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTransportDaerah'])->name('transport-daerah.destroy');
+        Route::delete('transport-luar/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTransportLuar'])->name('transport-luar.destroy');
+    });
 });
+
+
 
 // ==== MARKETPLACE ROUTES (PUBLIC) ====
 Route::prefix('marketplace')->group(function () {

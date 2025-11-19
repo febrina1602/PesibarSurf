@@ -92,8 +92,8 @@
                    Kelola Destinasi
                 </a>
 
-                <a href="#" {{-- Nanti ganti ke route('admin.packages.index') --}}
-                   class="nav-link-custom {{ request()->routeIs('admin.packages.*') ? 'active' : '' }}">
+                <a href="{{ route('admin.listings.index') }}"
+                   class="nav-link-custom {{ request()->routeIs('admin.listings.*') ? 'active' : '' }}">
                    Kelola Paket
                 </a>
                 
