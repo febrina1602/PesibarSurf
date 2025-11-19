@@ -9,6 +9,8 @@ use App\Http\Controllers\PemanduWisataController;
 use App\Http\Controllers\Agent\AgentPackageController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentDashboardController;
+use App\Http\Controllers\AppReviewController;
+
 // Controller Pasar Digital dihapus (OlehOleh, Transport, Penginapan, Marketplace, AgentBusiness)
 
 // ==== AUTHENTICATION ROUTES ====
@@ -121,4 +123,7 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
     });
 });
 
-// Group Marketplace Public dihapus sepenuhnya
+Route::middleware(['auth'])->group(function () {
+    Route::get('/ulasan-aplikasi', [AppReviewController::class, 'create'])->name('app-reviews.create');
+    Route::post('/ulasan-aplikasi', [AppReviewController::class, 'store'])->name('app-reviews.store');
+});
