@@ -4,16 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\BerandaController;
 use App\Http\Controllers\ProfileController;
-use App\Http\Controllers\OlehOlehController;
-use App\Http\Controllers\TransportController;
-use App\Http\Controllers\PenginapanController;
 use App\Http\Controllers\DestinationController;
-use App\Http\Controllers\MarketplaceController;
 use App\Http\Controllers\PemanduWisataController;
 use App\Http\Controllers\Agent\AgentPackageController;
 use App\Http\Controllers\Agent\AgentProfileController;
 use App\Http\Controllers\Agent\AgentDashboardController;
-use App\Http\Controllers\Agent\AgentBusinessController; 
+// Controller Pasar Digital dihapus (OlehOleh, Transport, Penginapan, Marketplace, AgentBusiness)
 
 // ==== AUTHENTICATION ROUTES ====
 Route::middleware('guest')->group(function () {
@@ -74,15 +70,12 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
     Route::get('/dashboard', [AgentDashboardController::class, 'index'])->name('dashboard');
 
     // --- PROFIL AGEN ---
-    // Mendaftarkan/Membuat Profil Agen (setelah registrasi user)
     Route::get('/profile/create', [AgentProfileController::class, 'create'])->name('profile.create');
     Route::post('/profile', [AgentProfileController::class, 'store'])->name('profile.store');
-
-    // Mengelola Profil Agen (Edit/Update)
     Route::get('/profile', [AgentProfileController::class, 'edit'])->name('profile.edit');
     Route::put('/profile', [AgentProfileController::class, 'update'])->name('profile.update');
 
-    // --- PAKET TOUR (Khusus Agent Tour) ---
+    // --- PAKET TOUR (Hanya ini yang tersisa untuk Agent) ---
     Route::get('/packages', [AgentPackageController::class, 'index'])->name('packages.index');
     Route::get('/packages/create', [AgentPackageController::class, 'create'])->name('packages.create');
     Route::post('/packages', [AgentPackageController::class, 'store'])->name('packages.store');
@@ -90,16 +83,7 @@ Route::middleware(['auth', 'role.agent'])->prefix('agent')->name('agent.')->grou
     Route::put('/packages/{tourPackage}', [AgentPackageController::class, 'update'])->name('packages.update');
     Route::delete('/packages/{tourPackage}', [AgentPackageController::class, 'destroy'])->name('packages.destroy');
     
-    // --- KELOLA USAHA (PASAR DIGITAL) --- 
-    Route::prefix('business')->name('business.')->group(function () {
-        Route::get('/', [AgentBusinessController::class, 'index'])->name('index'); // List Data
-        Route::get('/create', [AgentBusinessController::class, 'create'])->name('create'); // Form Tambah
-        Route::post('/', [AgentBusinessController::class, 'store'])->name('store'); // Simpan Baru
-        Route::get('/{id}/edit', [AgentBusinessController::class, 'edit'])->name('edit'); // Form Edit
-        Route::post('/{id}', [AgentBusinessController::class, 'update'])->name('update'); // Simpan Edit
-        Route::delete('/{id}', [AgentBusinessController::class, 'destroy'])->name('destroy'); // Hapus
-    });
-
+    // Rute Business/Pasar Digital dihapus
 });
 
 // Rute untuk menampilkan form registrasi agen
@@ -123,44 +107,18 @@ Route::middleware(['auth', 'role.admin'])->prefix('admin')->name('admin.')->grou
     Route::resource('categories', \App\Http\Controllers\Admin\DestinationCategoryController::class);
 
     Route::prefix('listings')->name('listings.')->group(function() {
-        // Halaman Utama (Tab View)
+        // Halaman Utama (Hanya menampilkan Tour)
         Route::get('/', [\App\Http\Controllers\Admin\AdminListingController::class, 'index'])->name('index');
 
-        // --- ROUTE EDIT & UPDATE ---
+        // --- ROUTE EDIT & UPDATE (Hanya Tour) ---
         Route::get('tours/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTour'])->name('tours.edit');
         Route::put('tours/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTour'])->name('tours.update');
-        Route::get('penginapan/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editPenginapan'])->name('penginapan.edit');
-        Route::put('penginapan/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updatePenginapan'])->name('penginapan.update');
-        Route::get('oleh-oleh/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editOlehOleh'])->name('oleh-oleh.edit');
-        Route::put('oleh-oleh/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateOlehOleh'])->name('oleh-oleh.update');
-        Route::get('transport-daerah/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTransportDaerah'])->name('transport-daerah.edit');
-        Route::put('transport-daerah/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTransportDaerah'])->name('transport-daerah.update');
-        Route::get('transport-luar/{id}/edit', [\App\Http\Controllers\Admin\AdminListingController::class, 'editTransportLuar'])->name('transport-luar.edit');
-        Route::put('transport-luar/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'updateTransportLuar'])->name('transport-luar.update');
-
-        // Route Delete (Hapus Listing)
+        
+        // Route Delete (Hapus Listing Tour)
         Route::delete('tours/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTour'])->name('tours.destroy');
-        Route::delete('penginapan/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyPenginapan'])->name('penginapan.destroy');
-        Route::delete('oleh-oleh/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyOlehOleh'])->name('oleh-oleh.destroy');
-        Route::delete('transport-daerah/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTransportDaerah'])->name('transport-daerah.destroy');
-        Route::delete('transport-luar/{id}', [\App\Http\Controllers\Admin\AdminListingController::class, 'destroyTransportLuar'])->name('transport-luar.destroy');
+        
+        // Rute edit/delete untuk penginapan, oleh-oleh, dll dihapus
     });
 });
 
-
-
-// ==== MARKETPLACE ROUTES (PUBLIC) ====
-Route::prefix('marketplace')->group(function () {
-    // Halaman utama Pasar Digital
-    Route::get('/', [MarketplaceController::class, 'index'])->name('marketplace.index');
-
-    // Halaman Transportasi Daerah (menu dalam)
-    Route::get('/transportasi/daerah', [TransportController::class, 'daerah'])->name('transport.daerah');
-    Route::get('/transportasi/luar', [TransportController::class, 'luar'])->name('transport.luar');
-
-    // Penginapan
-    Route::get('/penginapan', [PenginapanController::class, 'index'])->name('penginapan.index');
-
-    // Oleh-oleh
-    Route::get('/oleh-oleh', [OlehOlehController::class, 'index'])->name('oleh.index');
-});
+// Group Marketplace Public dihapus sepenuhnya

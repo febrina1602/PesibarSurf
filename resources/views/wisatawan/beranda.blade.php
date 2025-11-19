@@ -129,7 +129,7 @@
                    class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
                     Beranda
                 </a>
-                <a href="{{ route('marketplace.index') }}" 
+                {{-- <a href="{{ route('marketplace.index') }}" 
                    class="nav-link-custom {{ 
                        request()->routeIs('marketplace.*') || 
                        request()->routeIs('transport.*') || 
@@ -138,7 +138,7 @@
                        ? 'active' : '' 
                    }}">
                    Pasar Digital
-                </a>
+                </a> --}}
                 <a href="{{ route('pemandu-wisata.index') }}" 
                    class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">
                    Pemandu Wisata

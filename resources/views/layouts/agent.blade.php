@@ -81,24 +81,14 @@
                        Profil Agensi
                     </a>
                     
-                    {{-- LOGIKA MENU 1: KELOLA PAKET (Hanya untuk TOUR & BOTH) --}}
-                    @if(in_array($agent->agent_type, ['TOUR', 'BOTH']))
-                        <a href="{{ $agent->is_verified ? route('agent.packages.index') : '#' }}" 
-                           class="nav-link-custom {{ request()->routeIs('agent.packages.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
-                           @if(!$agent->is_verified) style="pointer-events: none; opacity: 0.6;" title="Harus terverifikasi" @endif>
-                           Kelola Paket Tour
-                        </a>
-                    @endif
+                    {{-- Menu Kelola Paket Tour (Selalu tampil jika terverifikasi) --}}
+                    <a href="{{ $agent->is_verified ? route('agent.packages.index') : '#' }}" 
+                       class="nav-link-custom {{ request()->routeIs('agent.packages.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
+                       @if(!$agent->is_verified) style="pointer-events: none; opacity: 0.6;" title="Harus terverifikasi" @endif>
+                       Kelola Paket Tour
+                    </a>
 
-                    {{-- LOGIKA MENU 2: KELOLA USAHA (Hanya untuk NON-TOUR & BOTH) --}}
-                    {{-- Jika tipe BUKAN 'TOUR', maka tampilkan menu ini --}}
-                    @if($agent->agent_type !== 'TOUR') 
-                        <a href="{{ $agent->is_verified ? route('agent.business.index') : '#' }}" 
-                           class="nav-link-custom {{ request()->routeIs('agent.business.*') ? 'active' : '' }} {{ !$agent->is_verified ? 'text-muted' : '' }}"
-                           @if(!$agent->is_verified) style="pointer-events: none; opacity: 0.6;" @endif>
-                           Kelola Toko/Usaha
-                        </a>
-                    @endif
+                    {{-- MENU KELOLA TOKO/USAHA DIHAPUS --}}
 
                 @else
                      <a href="{{ route('agent.profile.create') }}" 

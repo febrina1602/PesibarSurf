@@ -1,6 +1,6 @@
 @extends('layouts.admin')
 
-@section('title', 'Edit Paket Usaha - Admin')
+@section('title', 'Edit Paket Wisata')
 
 @section('admin_content')
 
@@ -8,62 +8,42 @@
     <a href="{{ route('admin.listings.index') }}" class="btn btn-light shadow-sm me-3 rounded-circle">
         <i class="fas fa-arrow-left"></i>
     </a>
-    <h1 class="h3 mb-0 text-gray-800">Edit Data Paket Usaha</h1>
+    <h1 class="h3 mb-0 text-gray-800">Edit Paket Wisata</h1>
 </div>
 
 <div class="card shadow mb-4">
     <div class="card-header py-3">
-        <h6 class="m-0 font-weight-bold text-primary">Form Edit Data ({{ ucfirst($type) }})</h6>
+        <h6 class="m-0 font-weight-bold text-primary">Form Edit Data Paket</h6>
     </div>
     <div class="card-body">
-        <form action="{{ route($routeUpdate, $data->id) }}" method="POST">
+        {{-- Route update otomatis mengarah ke tours.update sesuai controller sebelumnya --}}
+        <form action="{{ route('admin.listings.tours.update', $data->id) }}" method="POST">
             @csrf
             @method('PUT')
 
-            {{-- 1. NAMA (Semua Punya) --}}
+            {{-- 1. NAMA PAKET --}}
             <div class="mb-3">
-                <label class="form-label fw-bold">Nama Usaha</label>
+                <label class="form-label fw-bold">Nama Paket Wisata</label>
                 <input type="text" name="name" class="form-control" value="{{ old('name', $data->name) }}" required>
             </div>
 
-            {{-- 2. LOKASI (Semua KECUALI Tour & TransLocal) --}}
-            @if(!in_array($type, ['tour', 'trans_local']))
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Lokasi / Rute</label>
-                    <input type="text" name="location" class="form-control" value="{{ old('location', $data->location) }}">
+            <div class="row">
+                {{-- 2. HARGA PER ORANG --}}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Harga per Orang (Rp)</label>
+                    <input type="number" name="price_per_person" class="form-control" value="{{ old('price_per_person', $data->price_per_person) }}" required>
                 </div>
-            @endif
-
-            {{-- 3. HARGA (Nama Kolom Beda-beda) --}}
-            @if($type == 'tour')
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Harga per Orang (Rp)</label>
-                        <input type="number" name="price_per_person" class="form-control" value="{{ old('price_per_person', $data->price_per_person) }}">
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label fw-bold">Durasi</label>
-                        <input type="text" name="duration" class="form-control" value="{{ old('duration', $data->duration) }}">
-                    </div>
+                
+                {{-- 3. DURASI --}}
+                <div class="col-md-6 mb-3">
+                    <label class="form-label fw-bold">Durasi</label>
+                    <input type="text" name="duration" class="form-control" value="{{ old('duration', $data->duration) }}" placeholder="Contoh: 3 Hari 2 Malam" required>
                 </div>
+            </div>
 
-            @elseif($type == 'stay')
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Harga Mulai (Text)</label>
-                    <input type="text" name="price_start" class="form-control" value="{{ old('price_start', $data->price_start) }}">
-                    <small class="text-muted">Contoh: Rp 300.000 / malam</small>
-                </div>
-
-            @elseif($type == 'oleh' || $type == 'trans_local')
-                <div class="mb-3">
-                    <label class="form-label fw-bold">Kisaran Harga</label>
-                    <input type="text" name="price_range" class="form-control" value="{{ old('price_range', $data->price_range) }}">
-                </div>
-            @endif
-
-            {{-- 4. DESKRIPSI (Semua Punya) --}}
+            {{-- 4. DESKRIPSI --}}
             <div class="mb-3">
-                <label class="form-label fw-bold">Deskripsi</label>
+                <label class="form-label fw-bold">Deskripsi Paket</label>
                 <textarea name="description" class="form-control" rows="5">{{ old('description', $data->description) }}</textarea>
             </div>
 

@@ -71,10 +71,16 @@
                    class="nav-link-custom {{ request()->routeIs('beranda.wisatawan') ? 'active' : '' }}">
                     Beranda
                 </a>
-                <a href="{{ route('marketplace.index') }}" 
-                   class="nav-link-custom {{ request()->routeIs('marketplace.*') ? 'active' : '' }}">
+                {{-- <a href="{{ route('marketplace.index') }}" 
+                   class="nav-link-custom {{ 
+                       request()->routeIs('marketplace.*') || 
+                       request()->routeIs('transport.*') || 
+                       request()->routeIs('penginapan.*') || 
+                       request()->routeIs('oleh.*') 
+                       ? 'active' : '' 
+                   }}">
                    Pasar Digital
-                </a>
+                </a> --}}
                 <a href="{{ route('pemandu-wisata.index') }}" 
                    class="nav-link-custom {{ request()->routeIs('pemandu-wisata.*') ? 'active' : '' }} ">
                    Pemandu Wisata
